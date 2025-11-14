@@ -1,71 +1,39 @@
-// ...existing code...
 <!doctype html>
 <html lang="it">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Calendario settimanale</title>
+  <title>Nota giorno</title>
   <style>
-    :root{
-      --bg:#0d6efd; /* blu */
-      --card:#ffffff;
-      --muted:#6c757d;
-      --accent:#0747d1;
-    }
+    :root{--bg:#0d6efd;--card:#fff;--muted:#6c757d;--accent:#0747d1}
     html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#111}
-    .wrap{max-width:1200px;margin:32px auto;padding:20px}
-    header{color:#fff;text-align:center;margin-bottom:16px}
-    h1{margin:0;font-size:1.6rem}
-    .week{
-      display:grid;
-      grid-template-columns:repeat(7,1fr);
-      gap:14px;
-    }
-    @media (max-width:900px){ .week{grid-template-columns:repeat(2,1fr);} }
-    @media (max-width:480px){ .week{grid-template-columns:1fr;} }
-    .day{
-      background:var(--card);
-      border-radius:10px;
-      padding:12px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.12);
-      display:flex;
-      flex-direction:column;
-      min-height:170px;
-    }
-    .day-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-    .day-name{font-weight:600;color:var(--accent)}
-    .day-number{
-      background:var(--bg);
-      color:#fff;
-      width:36px;height:36px;
-      display:flex;align-items:center;justify-content:center;
-      border-radius:6px;font-weight:700;
-      box-shadow:inset 0 -2px 0 rgba(0,0,0,0.12);
-    }
-    .notes{
-      margin-top:6px;flex:1;display:flex;flex-direction:column;
-    }
-    textarea{
-      resize:vertical;min-height:80px;max-height:300px;
-      border:1px solid #e6e6e6;border-radius:6px;padding:8px;font-family:inherit;
-      font-size:0.95rem;flex:1;
-    }
-    .muted{font-size:0.85rem;color:var(--muted)}
-    .saved{font-size:0.8rem;color:green;margin-top:6px;display:none}
+    .wrap{max-width:900px;margin:32px auto;padding:20px}
+    .card{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+    a.back{color:var(--card);background:rgba(255,255,255,0.12);padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-block;margin-bottom:12px}
+    h1{margin:0 0 8px 0;color:var(--card)}
+    .day-title{color:#0747d1;margin-bottom:12px}
+    textarea{width:100%;min-height:260px;padding:10px;border:1px solid #e6e6e6;border-radius:8px;font-size:1rem;font-family:inherit;resize:vertical}
+    .muted{color:var(--muted);font-size:0.95rem}
+    .saved{color:green;margin-top:8px;display:none}
+    .controls{margin-top:10px;display:flex;gap:10px;align-items:center}
+    button{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer}
+    button.secondary{background:#6c757d}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <h1>Calendario settimanale</h1>
-      <div class="muted" id="week-range"></div>
-    </header>
-
-    <main class="week" id="week">
-      <!-- Giorni inseriti via JS -->
-    </main>
+    <a class="back" href="index.html">← Torna alla settimana</a>
+    <div class="card">
+      <div id="meta"></div>
+      <textarea id="note" placeholder="Scrivi le tue note..."></textarea>
+      <div class="controls">
+        <button id="save">Salva</button>
+        <button id="clear" class="secondary">Cancella</button>
+        <div class="saved" id="saved">Salvato</div>
+      </div>
+    </div>
   </div>
-
+// ...existing code...
   <script>
     // genera la settimana (lunedì → domenica)
     const weekEl = document.getElementById('week');
@@ -88,6 +56,13 @@
       return d.getDate() + '/' + (d.getMonth()+1);
     }
 
+    function escapeHtml(s){
+      return String(s)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;');
+    }
+
     function renderWeek(today=new Date()){
       weekEl.innerHTML = '';
       const monday = startOfWeek(today);
@@ -102,39 +77,39 @@
 
         const dayCard = document.createElement('section');
         dayCard.className = 'day';
+
+        // il link porta a note.html?date=YYYY-MM-DD
+        const href = `note.html?date=${encodeURIComponent(formatYMD(dt))}`;
+        const preview = saved ? escapeHtml(saved).replace(/\n/g,' ') .slice(0,200) : '';
         dayCard.innerHTML = `
-          <div class="day-header">
-            <div>
-              <div class="day-name">${dayNames[i]}</div>
-              <div class="muted">${dt.toLocaleDateString()}</div>
+          <a class="day-link" href="${href}">
+            <div class="day-header">
+              <div>
+                <div class="day-name">${dayNames[i]}</div>
+                <div class="muted">${dt.toLocaleDateString()}</div>
+              </div>
+              <div class="day-number" title="${dt.toLocaleDateString()}">${dt.getDate()}</div>
             </div>
-            <div class="day-number" title="${dt.toLocaleDateString()}">${dt.getDate()}</div>
-          </div>
-          <div class="notes">
-            <textarea id="${key}" placeholder="Scrivi una nota..."></textarea>
-            <div class="saved" id="saved-${key}">Salvato</div>
-          </div>
+            <div class="notes">
+              <div class="preview">${preview || '<span class="muted">Nessuna nota</span>'}</div>
+            </div>
+          </a>
         `;
         if(isToday){
           dayCard.style.outline = '3px solid rgba(255,255,255,0.12)';
         }
         weekEl.appendChild(dayCard);
-
-        const ta = dayCard.querySelector('textarea');
-        const savedEl = dayCard.querySelector('.saved');
-        ta.value = saved;
-        let timeout;
-        ta.addEventListener('input', () => {
-          localStorage.setItem(key, ta.value);
-          savedEl.style.display = 'inline';
-          clearTimeout(timeout);
-          timeout = setTimeout(()=> savedEl.style.display = 'none', 1200);
-        });
       }
     }
 
     renderWeek();
   </script>
+// ...existing code...
+  
+</body>
+</html>
+
+  
 </body>
 </html>
 // ...existing code...
