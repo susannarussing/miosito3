@@ -7,11 +7,50 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #007BFF; /* Changed to blue background */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 12px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        th {
+            background-color: #0056b3; /* Darker blue for headers */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e0ecf9;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #d0e0fa;
+        }
+
+        td:hover {
+            background-color: #cce;
         }
 
         table {
@@ -41,21 +80,51 @@
     </style>
 </head>
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th>Lun</th>
-                <th>Mar</th>
-                <th>Mer</th>
-                <th>Gio</th>
-                <th>Ven</th>
-                <th>Sab</th>
-                <th>Dom</th>
-            </tr>
-        </thead>
-        <tbody id="calendar-body">
-        </tbody>
-    </table>
+    <div>
+        <h1 id="month-year"></h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Lun</th>
+                    <th>Mar</th>
+                    <th>Mer</th>
+                    <th>Gio</th>
+                    <th>Ven</th>
+                    <th>Sab</th>
+                    <th>Dom</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body">
+            </tbody>
+        </table>
+    </div>
+    <script>
+        const date = new Date();
+        const month = date.getMonth();
+        const year = date.getFullYear();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDay = new Date(year, month, 1).getDay();
+        const tbody = document.getElementById('calendar-body');
+        const monthYearHeader = document.getElementById('month-year');
+
+        // Set the month and year in the header
+        monthYearHeader.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
+
+        for (let i = 0; i < 6; i++) {
+            const tr = document.createElement('tr');
+            for (let j = 0; j < 7; j++) {
+                const td = document.createElement('td');
+                const day = i * 7 + j - firstDay + 1;
+                if (day > 0 && day <= daysInMonth) {
+                    td.textContent = day;
+                } else {
+                    td.textContent = '';
+                }
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+        }
+    </script>
     <script>
         const date = new Date();
         const month = date.getMonth();
