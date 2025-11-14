@@ -3,105 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Nota giorno</title>
+  <title>Hello World</title>
   <style>
-    :root{--bg:#0d6efd;--card:#fff;--muted:#6c757d;--accent:#0747d1}
-    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#111}
-    .wrap{max-width:900px;margin:32px auto;padding:20px}
-    .card{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
-    a.back{color:var(--card);background:rgba(0,0,0,0.08);padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;margin-bottom:12px}
-    .day-title{color:#0747d1;margin:0 0 12px 0}
-    textarea{width:100%;min-height:260px;padding:10px;border:1px solid #e6e6e6;border-radius:8px;font-size:1rem;font-family:inherit;resize:vertical}
-    .muted{color:var(--muted);font-size:0.95rem}
-    .saved{color:green;margin-top:8px;display:none}
-    .controls{margin-top:10px;display:flex;gap:10px;align-items:center}
-    button{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer}
-    button.secondary{background:#6c757d}
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #007BFF; /* Blue background */
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+    h1 {
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <a id="back" class="back" href="index.html" title="Torna indietro">← Torna alla settimana</a>
-    <div class="card">
-      <div id="meta"></div>
-      <textarea id="note" placeholder="Scrivi le tue note..."></textarea>
-      <div class="controls">
-        <button id="save">Salva</button>
-        <button id="clear" class="secondary">Cancella</button>
-        <div class="saved" id="saved">Salvato</div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // helper
-    function qs(k){ return new URLSearchParams(location.search).get(k); }
-    function safeGet(k){ try { return localStorage.getItem(k) || ''; } catch(e){ return ''; } }
-    function safeSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
-    function safeRemove(k){ try { localStorage.removeItem(k); } catch(e){} }
-
-    // data
-    let dateParam = qs('date');
-    if(!dateParam){
-      dateParam = new Date().toISOString().slice(0,10);
-    }
-    // validate dateParam (YYYY-MM-DD)
-    const dateObj = new Date(dateParam);
-    if(isNaN(dateObj.getTime())){
-      dateParam = new Date().toISOString().slice(0,10);
-    }
-
-    const key = 'note-' + dateParam;
-    const noteEl = document.getElementById('note');
-    const meta = document.getElementById('meta');
-    const savedEl = document.getElementById('saved');
-
-    // titolo leggibile
-    const d = new Date(dateParam);
-    const dayName = d.toLocaleDateString(undefined,{weekday:'long'});
-    meta.innerHTML = `<h2 class="day-title">${dayName} — ${d.toLocaleDateString()}</h2>`;
-
-    // carica nota
-    noteEl.value = safeGet(key);
-
-    // mostra "Salvato" temporaneo
-    let timeout;
-    function showSaved(){
-      savedEl.style.display = 'inline';
-      clearTimeout(timeout);
-      timeout = setTimeout(()=> savedEl.style.display = 'none', 1200);
-    }
-
-    // eventi
-    noteEl.addEventListener('input', () => {
-      safeSet(key, noteEl.value);
-      showSaved();
-    });
-
-    document.getElementById('save').addEventListener('click', () => {
-      safeSet(key, noteEl.value);
-      showSaved();
-    });
-
-    document.getElementById('clear').addEventListener('click', () => {
-      if(confirm('Eliminare la nota per ' + dateParam + '?')){
-        safeRemove(key);
-        noteEl.value = '';
-        showSaved();
-      }
-    });
-
-    // rendi la freccia indietro funzionale: usa history.back(), fallback a index.html
-    document.getElementById('back').addEventListener('click', function(e){
-      e.preventDefault();
-      if(history.length > 1){
-        history.back();
-        // in alcuni casi history.back() non cambia pagina subito, usiamo timeout fallback
-        setTimeout(()=>{ if(location.pathname.endsWith('/note.html')) location.href = 'index.html'; }, 300);
-      } else {
-        location.href = 'index.html';
-      }
-    });
-  </script>
+  <h1>Hello World</h1>
 </body>
 </html>
