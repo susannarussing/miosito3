@@ -8,7 +8,6 @@ h1, h2 {
     font-family: 'Cormorant Infant', serif;
 }
 
-
 .box-titolo {
     font-size: 64px;
     font-weight: bold;
@@ -46,15 +45,15 @@ h1, h2 {
     color: black;
 }
 
-
 .image-tre {
     height: 100%;
 }
 
 .bg-grey{
     background-color: #ECECEC;
+    margin-left: 0;
+    margin-right: 0;
 }
-
 
 /* Media queries per responsive */
 @media (max-width: 768px) {

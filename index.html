@@ -21,8 +21,34 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> 
 
+    <!-- scrollable rows on mobile -->
+    <style>
+      /* mobile: make selected rows horizontally scrollable */
+      @media (max-width: 576px) {
+        .scrollable-row{
+          display: flex;
+          gap: 1rem;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          padding-bottom: 0.5rem;
+          scroll-snap-type: x mandatory;
+        }
+        /* make the bootstrap columns act as horizontal cards */
+        .scrollable-row > [class*="col-"]{
+          flex: 0 0 75%;
+          max-width: 75%;
+          scroll-snap-align: start;
+        }
+        /* slightly reduce internal padding so items look like cards */
+        .scrollable-row .image-tre{ min-width: 100%; }
+      }
+      /* optional: hide scrollbar in WebKit while keeping usability */
+      .scrollable-row::-webkit-scrollbar{ height:8px; }
+      .scrollable-row::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.12); border-radius: 4px; }
+    </style>
 
 </head>
+
 <body>
     <!-- prima riga -->
       <div class="container-fluid">
@@ -67,9 +93,10 @@
         </div>
 
 
+
     <!-- terza riga-->
         <div class="container-fluid px-5 py-5">
-            <div class="row g-4 bg-grey p-4"> <!--g per mettere spazio tra le colonne-->
+            <div class="row g-4 bg-grey p-4 scrollable-row"> <!--g per mettere spazio tra le colonne; aggiunta scrollable-row-->
     <!-- colonna 1 -->
         <div class="col-lg-4 col-md-12">
             <div class="image-tre">
@@ -111,10 +138,11 @@
 
 
 
+
 <!-- quarta riga -->
 <div class="container-fluid">
-    <div class="row align-items-center esperienze-section px-5">
-        <div class="col-lg-5 col-md-4 px-5">
+    <div class="row align-items-center esperienze-section">
+        <div class="col-lg-5 col-md-4">
             <h2 class="about-titolo">Esperienze</h2>
             <p class="about-text">
                 Ho 23 anni e sono una ballerina professionista, 
@@ -124,15 +152,15 @@
                 accademico, ho proseguito la mia formazione 
                 con un corso professionale di danza 
                 contemporanea, ampliando la mia ricerca sul 
-                movimento e sull'espressione corporea.<br><br>
+                movimento e sull'espressione corporea.<br>
                 Attualmente frequento il secondo anno del Corso di 
                 Laurea in Design all'Università di San Marino, un 
                 ambito che mi permette di coniugare creatività, 
                 metodo e visione progettuale, dando vita a lavori 
-                sempre diversi e in continua evoluzione.<br><br>
+                sempre diversi e in continua evoluzione.<br>
                 Accanto alla danza e al design, coltivo una profonda 
                 passione per la fotografia, sia come soggetto che 
-                come osservatrice.<br><br>
+                come osservatrice.<br>
                 Oggi continuo a esplorare il linguaggio del corpo 
                 anche come insegnante di danza classica 
                 e contemporanea, unendo esperienza, sensibilità 
@@ -144,55 +172,57 @@
     </div>
 </div>
 
-<!-- quinta riga -->
-<div class="container-fluid px-5 py-5">
-    <div class="row g-4 p-4">
-        <!-- colonna 1 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="image-tre">
-                <img src="img/Rectangle 1.jpg" alt="Immagine 1" class="img-fluid mb-3">
-                <h3 class="about-titolo">Immagine 1</h3>
-                <p class="about-text">
-                    Descrizione per la prima immagine della quinta riga.
-                </p>
+
+    <!-- quinta riga -->
+    <div class="container-fluid px-5 py-5">
+        <div class="row g-4 p-4 scrollable-row"> <!-- added scrollable-row -->
+            <!-- colonna 1 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="image-tre">
+                    <img src="img/Rectangle 1.jpg" alt="Immagine 1" class="img-fluid mb-3">
+                    <h3 class="about-titolo">Immagine 1</h3>
+                    <p class="about-text">
+                        Descrizione per la prima immagine della quinta riga.
+                    </p>
+                </div>
             </div>
-        </div>
-        <!-- colonna 2 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="image-tre">
-                <img src="img/DesignUniversity copia.jpg" alt="Immagine 2" class="img-fluid mb-3">
-                <h3 class="about-titolo">Immagine 2</h3>
-                <p class="about-text">
-                    Descrizione per la seconda immagine della quinta riga.
-                </p>
+            <!-- colonna 2 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="image-tre">
+                    <img src="img/DesignUniversity copia.jpg" alt="Immagine 2" class="img-fluid mb-3">
+                    <h3 class="about-titolo">Immagine 2</h3>
+                    <p class="about-text">
+                        Descrizione per la seconda immagine della quinta riga.
+                    </p>
+                </div>
             </div>
-        </div>
-        <!-- colonna 3 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="image-tre">
-                <img src="img/ProfessionalDancer copia.jpg" alt="Immagine 3" class="img-fluid mb-3">
-                <h3 class="about-titolo">Immagine 3</h3>
-                <p class="about-text">
-                    Descrizione per la terza immagine della quinta riga.
-                </p>
+            <!-- colonna 3 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="image-tre">
+                    <img src="img/ProfessionalDancer copia.jpg" alt="Immagine 3" class="img-fluid mb-3">
+                    <h3 class="about-titolo">Immagine 3</h3>
+                    <p class="about-text">
+                        Descrizione per la terza immagine della quinta riga.
+                    </p>
+                </div>
             </div>
-        </div>
-        <!-- colonna 4 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="image-tre">
-                <img src="img/università6 copia.jpg" alt="Immagine 4" class="img-fluid mb-3">
-                <h3 class="about-titolo">Immagine 4</h3>
-                <p class="about-text">
-                    Descrizione per la quarta immagine della quinta riga.
-                </p>
+            <!-- colonna 4 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="image-tre">
+                    <img src="img/università6 copia.jpg" alt="Immagine 4" class="img-fluid mb-3">
+                    <h3 class="about-titolo">Immagine 4</h3>
+                    <p class="about-text">
+                        Descrizione per la quarta immagine della quinta riga.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+<!-- ...existing code... -->
 
 <!-- sesta riga -->
 <div class="container-fluid px-5 py-5">
-    <div class="row g-4 bg-grey p-4">
+    <div class="row g-4 bg-grey p-4 scrollable-row"> <!-- added scrollable-row -->
         <!-- colonna 1 -->
         <div class="col-lg-3 col-md-6">
             <div class="image-tre">
@@ -235,6 +265,7 @@
         </div>
     </div>
 </div>
+
 
 </body>
 </html>
