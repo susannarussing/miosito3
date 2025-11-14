@@ -57,25 +57,33 @@
             border-collapse: collapse;
             width: 80%;
             max-width: 800px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         th, td {
             border: 1px solid #333;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
+            transition: background-color 0.3s;
         }
 
         th {
-            background-color: #444;
+            background-color: #0056b3; /* Darker blue for headers */
             color: white;
         }
 
         tr:nth-child(even) {
-            background-color: #ddd;
+            background-color: #e0ecf9;
         }
 
         tr:nth-child(odd) {
-            background-color: #fff;
+            background-color: #d0e0fa;
+        }
+
+        td:hover {
+            background-color: #cce;
         }
     </style>
 </head>
@@ -132,6 +140,10 @@
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const firstDay = new Date(year, month, 1).getDay();
         const tbody = document.getElementById('calendar-body');
+        const monthYearHeader = document.getElementById('month-year');
+
+        // Set the month and year in the header
+        monthYearHeader.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
         for (let i = 0; i < 6; i++) {
             const tr = document.createElement('tr');
@@ -140,6 +152,8 @@
                 const day = i * 7 + j - firstDay + 1;
                 if (day > 0 && day <= daysInMonth) {
                     td.textContent = day;
+                } else {
+                    td.textContent = '';
                 }
                 tr.appendChild(td);
             }
