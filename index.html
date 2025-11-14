@@ -1,89 +1,86 @@
+// ...existing code...
 <!doctype html>
 <html lang="it">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Nota giorno</title>
+  <title>Calendario settimanale</title>
   <style>
     :root{--bg:#0d6efd;--card:#fff;--muted:#6c757d;--accent:#0747d1}
     html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#111}
-    .wrap{max-width:900px;margin:32px auto;padding:20px}
-    .card{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
-    a.back{color:var(--card);background:rgba(255,255,255,0.12);padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-block;margin-bottom:12px}
-    h1{margin:0 0 8px 0;color:var(--card)}
-    .day-title{color:#0747d1;margin-bottom:12px}
-    textarea{width:100%;min-height:260px;padding:10px;border:1px solid #e6e6e6;border-radius:8px;font-size:1rem;font-family:inherit;resize:vertical}
-    .muted{color:var(--muted);font-size:0.95rem}
-    .saved{color:green;margin-top:8px;display:none}
-    .controls{margin-top:10px;display:flex;gap:10px;align-items:center}
-    button{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer}
-    button.secondary{background:#6c757d}
+    .wrap{max-width:1200px;margin:28px auto;padding:20px}
+    header{color:#fff;text-align:center;margin-bottom:18px}
+    h1{margin:0;font-size:1.6rem}
+    .week{display:grid;grid-template-columns:repeat(7,1fr);gap:14px}
+    @media (max-width:900px){.week{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:480px){.week{grid-template-columns:1fr}}
+    .day{background:var(--card);border-radius:10px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.12);display:flex;flex-direction:column;min-height:160px}
+    .day-link{display:flex;flex-direction:column;color:inherit;text-decoration:none;height:100%}
+    .day-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .day-name{font-weight:600;color:var(--accent)}
+    .day-number{background:var(--bg);color:#fff;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:6px;font-weight:700}
+    .muted{font-size:0.85rem;color:var(--muted)}
+    .notes{margin-top:6px;flex:1;display:flex;flex-direction:column;justify-content:flex-start}
+    .preview{white-space:pre-wrap;color:#222;overflow:hidden;max-height:120px}
+    .today{outline:3px solid rgba(255,255,255,0.12)}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <a class="back" href="index.html">← Torna alla settimana</a>
-    <div class="card">
-      <div id="meta"></div>
-      <textarea id="note" placeholder="Scrivi le tue note..."></textarea>
-      <div class="controls">
-        <button id="save">Salva</button>
-        <button id="clear" class="secondary">Cancella</button>
-        <div class="saved" id="saved">Salvato</div>
-      </div>
-    </div>
+    <header>
+      <h1>Calendario settimanale</h1>
+      <div class="muted" id="week-range"></div>
+    </header>
+
+    <main class="week" id="week" aria-label="Settimana">
+      <!-- giorni generati da script -->
+    </main>
   </div>
 
-  
   <script>
-    // genera la settimana (lunedì → domenica)
     const weekEl = document.getElementById('week');
     const rangeEl = document.getElementById('week-range');
     const dayNames = ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'];
 
     function startOfWeek(date){
-      // ritorna lunedì della settimana del date
       const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
       const day = (d.getDay() + 6) % 7; // 0 = Monday
       d.setDate(d.getDate() - day);
       return d;
     }
 
-    function formatYMD(d){
+    function ymd(d){
       return d.toISOString().slice(0,10);
     }
 
-    function formatShort(d){
+    function short(d){
       return d.getDate() + '/' + (d.getMonth()+1);
     }
 
     function escapeHtml(s){
-      return String(s)
-        .replace(/&/g,'&amp;')
-        .replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;');
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    function renderWeek(today=new Date()){
+    function renderWeek(today = new Date()){
       weekEl.innerHTML = '';
       const monday = startOfWeek(today);
       const sunday = new Date(monday); sunday.setDate(monday.getDate()+6);
-      rangeEl.textContent = formatShort(monday) + ' — ' + formatShort(sunday);
+      rangeEl.textContent = short(monday) + ' — ' + short(sunday);
 
       for(let i=0;i<7;i++){
         const dt = new Date(monday); dt.setDate(monday.getDate()+i);
-        const key = 'note-'+formatYMD(dt);
+        const key = 'note-'+ymd(dt);
         const saved = localStorage.getItem(key) || '';
-        const isToday = formatYMD(dt) === formatYMD(new Date());
+        const isToday = ymd(dt) === ymd(new Date());
 
-        const dayCard = document.createElement('section');
-        dayCard.className = 'day';
+        const card = document.createElement('section');
+        card.className = 'day';
 
-        // il link porta a note.html?date=YYYY-MM-DD
-        const href = `note.html?date=${encodeURIComponent(formatYMD(dt))}`;
+        const href = `note.html?date=${encodeURIComponent(ymd(dt))}`;
         const preview = saved ? escapeHtml(saved).replace(/\n/g,' ') .slice(0,200) : '';
-        dayCard.innerHTML = `
-          <a class="day-link" href="${href}">
+
+        card.innerHTML = `
+          <a class="day-link" href="${href}" aria-label="Apri note per ${dt.toLocaleDateString()}">
             <div class="day-header">
               <div>
                 <div class="day-name">${dayNames[i]}</div>
@@ -96,20 +93,13 @@
             </div>
           </a>
         `;
-        if(isToday){
-          dayCard.style.outline = '3px solid rgba(255,255,255,0.12)';
-        }
-        weekEl.appendChild(dayCard);
+        if(isToday) card.classList.add('today');
+        weekEl.appendChild(card);
       }
     }
 
     renderWeek();
   </script>
-
-  
 </body>
 </html>
-
-  
-</body>
-</html>
+// ...existing code...
