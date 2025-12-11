@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Esercizio Bootstrap </title>
+    <title>Portfolio Susanna Rüssing</title>
     <meta charset="utf-8">
 
     <!-- bootstrap grid --> 
@@ -21,53 +21,93 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> 
 
-    <!-- scrollable rows on mobile -->
-    <style>
-      /* mobile: make selected rows horizontally scrollable */
+        <!-- scrollable rows on mobile -->
+        <style>
+            /* rimuovo margin del body per full-bleed */
+            html, body { margin: 0; padding: 0; }
+      /* mobile: fa si che le row siano scrollabili */
       @media (max-width: 576px) {
         .scrollable-row {
-          display: flex;
-          gap: 1rem;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          padding-bottom: 0.5rem;
-          scroll-snap-type: x mandatory;
-          width: 100%;
-          flex-wrap: nowrap;
+                    display: flex;
+                    gap: 0; /* rimuovo lo spazio laterale tra gli item per evitare peek delle immagini */
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    padding-bottom: 0.5rem;
+                    scroll-snap-type: x mandatory;
+                    width: 100%;
+                    flex-wrap: nowrap;
+                    /* nascondo la scrollbar visiva */
+                    -ms-overflow-style: none; /* IE/Edge */
+                    scrollbar-width: none; /* Firefox */
         }
         
-        /* make the bootstrap columns act as horizontal cards */
-        .scrollable-row > [class*="col-"] {
-          flex: 0 0 100%;
-          min-width: 100%;
-          max-width: 100%;
-          scroll-snap-align: start;
-          padding-left: 1rem !important;
-          padding-right: 1rem !important;
-        }
+        /* fa si che le colonne bootstrap facciano come le cards */
+                        .scrollable-row > [class*="col-"] {
+                            /* ogni slide occupa tutta la larghezza della viewport per evitare peek dell'immagine successiva */
+                            flex: 0 0 100vw;
+                            min-width: 100vw;
+                            max-width: 100vw;
+                            scroll-snap-align: start;
+                            /* rimuovo i padding laterali per far arrivare l'immagine fino al bordo del dispositivo */
+                            padding-left: 0 !important;
+                            padding-right: 0 !important;
+                        }
         
-        /* ensure images and descriptions are fully contained */
+        /* assicura che le immagini e le descrizioni siano nella posizione giusta */
         .scrollable-row .image-tre {
           width: 100%;
           display: flex;
           flex-direction: column;
         }
         
-        .scrollable-row .image-tre img {
-          width: 100%;
-          height: auto;
-          display: block;
-        }
+                        .scrollable-row .image-tre img {
+                            width: 100%;
+                            height: calc(100vw * 0.6); /* un'altezza responsiva più grande per riempire lo spazio */
+                            max-height: 70vh;
+                            display: block;
+                            object-fit: cover; /* assicura che l'immagine riempia l'area senza distorsioni */
+                        }
       }
       
       /* optional: hide scrollbar in WebKit while keeping usability */
-      .scrollable-row::-webkit-scrollbar { 
-        height: 8px; 
-      }
-      .scrollable-row::-webkit-scrollbar-thumb { 
-        background: rgba(0,0,0,0.12); 
-        border-radius: 4px; 
-      }
+            /* nascondo la scrollbar (ma il contenuto rimane scrollabile via touch) */
+            .scrollable-row::-webkit-scrollbar { 
+                display: none; 
+                height: 0;
+            }
+
+            /* Dots (pagination) for mobile scrollable rows */
+                    .scroll-dots {
+                        display: none; /* visibile solo su mobile tramite media query */
+                        gap: 0.5rem;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 0.5rem 0 1rem 0;
+                        position: absolute; /* verranno sovrapposti alle immagini */
+                        left: 50%;
+                        transform: translateX(-50%);
+                        bottom: 12px;
+                        z-index: 30;
+                        pointer-events: auto;
+                    }
+            .scroll-dots .dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: rgba(0,0,0,0.18);
+                border: none;
+                padding: 0;
+                cursor: pointer;
+            }
+            .scroll-dots .dot.active {
+                background: rgba(0,0,0,0.7);
+            }
+
+                    @media (max-width: 576px) {
+                        .scroll-dots { display: flex; }
+                        /* rimuovo padding dei container che contengono scrollable-row per full-bleed */
+                        .container-fluid.px-5 { padding-left: 0 !important; padding-right: 0 !important; }
+                    }
     </style>
 
 </head>
@@ -203,9 +243,9 @@
             <div class="col-lg-3 col-md-6">
                 <div class="image-tre">
                     <img src="img/d.rim.jpg" alt="Immagine 1" class="img-fluid mb-3">
-                    <h3 class="about-titolo">Immagine 1</h3>
+                    <h3 class="about-titolo">"D.Rim"</h3>
                     <p class="about-text">
-                        Descrizione per la prima immagine della quinta riga.
+                        Progetto di laboratorio di comunicazione, per creare l’identità visiva di un hub culturale
                     </p>
                 </div>
             </div>
@@ -213,9 +253,9 @@
             <div class="col-lg-3 col-md-6">
                 <div class="image-tre">
                     <img src="img/eco.jpg" alt="Immagine 2" class="img-fluid mb-3">
-                    <h3 class="about-titolo">Immagine 2</h3>
+                    <h3 class="about-titolo">"Eco"</h3>
                     <p class="about-text">
-                        Descrizione per la seconda immagine della quinta riga.
+                        Modellino di trasformazioni geometriche, creato con forex e perle.
                     </p>
                 </div>
             </div>
@@ -223,9 +263,9 @@
             <div class="col-lg-3 col-md-6">
                 <div class="image-tre">
                     <img src="img/barbieparalume copia.jpg" alt="Immagine 3" class="img-fluid mb-3">
-                    <h3 class="about-titolo">Immagine 3</h3>
+                    <h3 class="about-titolo">"Barbie Paralume"</h3>
                     <p class="about-text">
-                        Descrizione per la terza immagine della quinta riga.
+                        Realizzazione di una lampada ispirata agli anni ‘60, con materiali di recupero.
                     </p>
                 </div>
             </div>
@@ -233,7 +273,7 @@
             <div class="col-lg-3 col-md-6">
                 <div class="image-tre">
                     <img src="img/incollisione.jpg" alt="Immagine 4" class="img-fluid mb-3">
-                    <h3 class="about-titolo">Immagine 4</h3>
+                    <h3 class="about-titolo">"In collisione"</h3>
                     <p class="about-text">
                         Descrizione per la quarta immagine della quinta riga.
                     </p>
@@ -292,3 +332,70 @@
 
 </body>
 </html>
+<script>
+    // Pagination dots for horizontal scrollable rows (mobile)
+    (function () {
+        function initScrollableDots() {
+            const rows = document.querySelectorAll('.scrollable-row');
+            rows.forEach(row => {
+                // count only direct column children
+                const items = Array.from(row.querySelectorAll('[class*="col-"]'));
+                if (!items.length) return;
+
+                // create dots container
+                const dots = document.createElement('div');
+                    dots.className = 'scroll-dots';
+                    // append dots inside the row so they can be overlaid on the images
+                    row.style.position = row.style.position || 'relative';
+                    row.appendChild(dots);
+
+                items.forEach((_, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'dot';
+                    btn.setAttribute('aria-label', 'Vai alla slide ' + (i + 1));
+                        btn.addEventListener('click', function () {
+                            const target = items[i];
+                            if (target) {
+                                row.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+                            }
+                        });
+                    dots.appendChild(btn);
+                });
+
+                
+                    const updateActive = () => {
+                        // determine the nearest item based on scrollLeft and offsets
+                        const scrollLeft = row.scrollLeft;
+                        let nearest = 0;
+                        let minDiff = Infinity;
+                        items.forEach((it, idx) => {
+                            const diff = Math.abs(it.offsetLeft - scrollLeft);
+                            if (diff < minDiff) { minDiff = diff; nearest = idx; }
+                        });
+                        const dotButtons = dots.querySelectorAll('.dot');
+                        dotButtons.forEach((d, idx) => d.classList.toggle('active', idx === nearest));
+                    };
+
+                // update while scrolling
+                let rafId = null;
+                row.addEventListener('scroll', () => {
+                    if (rafId) cancelAnimationFrame(rafId);
+                    rafId = requestAnimationFrame(updateActive);
+                }, { passive: true });
+
+                // initial state
+                updateActive();
+
+                // update on resize (layout may change)
+                window.addEventListener('resize', updateActive);
+            });
+        }
+
+        // initialize when DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initScrollableDots);
+        } else {
+            initScrollableDots();
+        }
+    })();
+</script>
