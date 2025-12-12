@@ -23,8 +23,10 @@
 
         <!-- scrollable rows on mobile -->
         <style>
-            /* rimuovo margin del body per full-bleed */
-            html, body { margin: 0; padding: 0; }
+            /* rimuovo margin ma NON azzero il padding del body (manteniamo lo spazio per l'header fisso) */
+            html, body { margin: 0; }
+            /* assicurati che le righe scrollabili possano avere overlay assoluti (dots) */
+            .scrollable-row { position: relative; }
       /* mobile: fa si che le row siano scrollabili */
       @media (max-width: 576px) {
         .scrollable-row {
@@ -78,17 +80,19 @@
 
             /* Dots (pagination) for mobile scrollable rows */
                     .scroll-dots {
-                        display: none; /* visibile solo su mobile tramite media query */
+                                display: none; /* visibili solo su mobile tramite media query */
                         gap: 0.5rem;
                         justify-content: center;
                         align-items: center;
                         margin: 0.5rem 0 1rem 0;
-                        position: absolute; /* verranno sovrapposti alle immagini */
+                        position: absolute; /* positioned within the scrollable-row */
                         left: 50%;
                         transform: translateX(-50%);
-                        bottom: 12px;
-                        z-index: 30;
+                        bottom: 14px;
+                        z-index: 1200;
                         pointer-events: auto;
+                        background: transparent;
+                        padding: 4px 8px;
                     }
             .scroll-dots .dot {
                 width: 8px;
@@ -113,6 +117,63 @@
 </head>
 
 <body>
+    <!-- Mobile nav overlay (esistente) -->
+    <div id="mobile-nav" class="mobile-nav-wrapper d-lg-none" role="dialog" aria-modal="true" aria-hidden="true"> <!-- overlay menu mobile -->
+        <div class="mobile-nav-inner">
+            <button class="btn btn-close mb-3" aria-label="Chiudi menu">Close</button>
+            <ul class="nav-list" role="menu">
+                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0" aria-current="page"><strong>Home</strong></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0"><strong>About me</strong></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0"><strong>Progetti professionali</strong></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0"><strong>Progetti universitari</strong></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0"><strong>Formazione</strong></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0"><strong>Contatti</strong></a></li>
+            </ul>
+        </div>
+    </div>
+
+        <!-- Site header: full-width row with gray background, logo space left and nav right -->
+        <header class="site-header bg-grey">
+                        <div class="container-fluid">
+                            <div class="row align-items-center">
+                                <!-- logo placeholder (left) -->
+                    <div class="col-auto logo-space px-4">
+                        <!-- logo placeholder (inline SVG) -->
+                        <a href="#" class="logo-link" aria-label="Homepage">
+                            <svg class="logo-placeholder" width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                                <rect width="120" height="40" fill="#ECECEC" />
+                                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Raleway, sans-serif" font-size="12" fill="#666">LOGO</text>
+                            </svg>
+                        </a>
+                    </div>
+
+                                <!-- navigation (right) -->
+                                            <div class="col d-flex justify-content-end align-items-center">
+                                    <nav class="main-nav d-none d-lg-flex" aria-label="Main navigation">
+                                        <ul class="nav-list">
+                                            <li class="nav-item"><a href="#" class="nav-link" aria-current="page"><strong>Home</strong></a></li>
+                                            <li class="nav-item"><a href="#" class="nav-link"><strong>About me</strong></a></li>
+                                            <li class="nav-item"><a href="#" class="nav-link"><strong>Progetti professionali</strong></a></li>
+                                            <li class="nav-item"><a href="#" class="nav-link"><strong>Progetti universitari</strong></a></li>
+                                            <li class="nav-item"><a href="#" class="nav-link"><strong>Formazione</strong></a></li>
+                                            <li class="nav-item"><a href="#" class="nav-link"><strong>Contatti</strong></a></li>
+                                        </ul>
+                                    </nav>
+
+                                                <!-- hamburger (visible on mobile) -->
+                                                <button class="btn-menu btn btn-menu--visible d-lg-none" aria-label="Apri menu" aria-controls="mobile-nav" aria-expanded="false">
+                                                    <span class="hamburger-icon" aria-hidden="true"></span>
+                                                </button>
+                                                <!-- header close button (appears only when mobile menu is open) -->
+                                                <button class="btn-close-header d-lg-none" aria-label="Chiudi menu" style="display:none;">
+                                                    <span aria-hidden="true">✕</span>
+                                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+    
     <!-- prima riga -->
       <div class="container-fluid">
         <div class="row align-items-center">
@@ -176,7 +237,7 @@
         <div class="col-lg-4 col-md-12">
             <div class="image-tre">
                 <img src="img/grandjete.jpg" alt="Professional dancer" class="img-fluid mb-3">
-                <h3 class="about-titolo">Professional dancer</h3>
+                <h3 class="about-titolo">Dance career</h3>
                 <p class="about-text">
                     Duplice diploma: Royal Academy of Dance 2019<br>
                     Bottaini International Center of Arts 2021<br>
@@ -201,13 +262,12 @@
 
 
 
-
 <!-- quarta riga -->
 <div class="container-fluid">
     <div class="row align-items-center esperienze-section">
-        <div class="col-lg-5 col-md-4">
+        <div class="col-lg-5 col-md-4 offset-md-1">
             <h2 class="about-titolo">Esperienze</h2>
-            <p class="about-text">
+            <p class="about-text ">
                 Ho 23 anni e sono una ballerina professionista, 
                 diplomata con il metodo RAD e successivamente 
                 presso un'Accademia di danza in Germania, 
@@ -235,10 +295,93 @@
     </div>
 </div>
 
+   <!--quinta riga-->
+   <div class="container-fluid px-5 py-5">
+            <div class="row g-4 bg-grey p-4 scrollable-row"> <!--g per mettere spazio tra le colonne; aggiunta scrollable-row-->
+    <!-- colonna 1 -->
+        <div class="col-lg-4 col-md-12">
+            <div class="image-tre">
+                <img src="img/shootingmare.jpg" alt="Shooting mare" class="img-fluid mb-3">
+                <h3 class="about-titolo">Dance career</h3>
+                <p class="about-text">
+                    Ballerina professionista ed insegnante di danza classica e contemporanea.
+                </p>
+            </div>
+        </div>
+        
+    <!-- colonna 2 -->
+        <div class="col-lg-4 col-md-12">
+            <div class="image-tre">
+                <img src="img/shootingwakko.jpg" alt="Shooting per Wakko" class="img-fluid mb-3">
+                <p class="about-text">
+                    Collaborazioni con il negozio Wakko.
+                </p>
+            </div>
+        </div>
+        
+    <!-- colonna 3 -->
+        <div class="col-lg-4 col-md-12">
+            <div class="image-tre">
+                <img src="img/classica.jpg" alt="Shooting accademico" class="img-fluid mb-3">
+                <p class="about-text">
+                    Shooting fotografico per l'Accademia di danza, Germania.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- quinta riga -->
-    <div class="container-fluid px-5 py-5">
-        <div class="row g-4 p-4 scrollable-row"> <!-- added scrollable-row -->
+    <!-- sesta riga -->
+    
+<div class="container-fluid px-5 py-5">
+    <div class="row g-4 bg-grey p-4 scrollable-row"> <!-- added scrollable-row -->
+        <!-- colonna 1 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="image-tre">
+                <img src="img/cappello.jpg" alt="Immagine 5" class="img-fluid mb-3">
+                <h3 class="about-titolo">"Crisalide"</h3>
+                <p class="about-text">
+                    Workshop con Reinhard Plank sulla lavorazione dei copricapo in feltro.
+                </p>
+            </div>
+        </div>
+        <!-- colonna 2 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="image-tre">
+                <img src="img/labirinto.jpg" alt="Immagine 6" class="img-fluid mb-3">
+                <h3 class="about-titolo">Labirinto</h3>
+                <p class="about-text">
+                    Progettazione di un labirinto, realizzato con taglio laser su legno.
+                </p>
+            </div>
+        </div>
+        <!-- colonna 3 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="image-tre">
+                <img src="img/tipoteca.jpg" alt="Immagine 7" class="img-fluid mb-3">
+                <h3 class="about-titolo">Tipoteca</h3>
+                <p class="about-text">
+                    Workshop sulla tipografia, tramite la scelta e l’utilizzo di caratteri mobili.
+                </p>
+            </div>
+        </div>
+        <!-- colonna 4 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="image-tre">
+                <img src="img/manifestoespansione.jpg" alt="Immagine 8" class="img-fluid mb-3">
+                <h3 class="about-titolo">"Onde di espansione"</h3>
+                <p class="about-text">
+                    Le frequenze di un discorso di guerra, che diventano retorica dell’espansione del territorio.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+            <!-- settima riga -->
+        <div class="container-fluid px-5 py-5 pb-0-desktop">
+        <div class="row g-4 bg-white p-4 scrollable-row"> <!-- added scrollable-row -->
             <!-- colonna 1 -->
             <div class="col-lg-3 col-md-6">
                 <div class="image-tre">
@@ -275,127 +418,241 @@
                     <img src="img/incollisione.jpg" alt="Immagine 4" class="img-fluid mb-3">
                     <h3 class="about-titolo">"In collisione"</h3>
                     <p class="about-text">
-                        Descrizione per la quarta immagine della quinta riga.
+                        Indagine sul territorio come spazio caotico in movimento, raccontato attraverso la riproduzione analogica dei pianeti.
                     </p>
                 </div>
             </div>
         </div>
     </div>
-<!-- ...existing code... -->
 
-<!-- sesta riga -->
-<div class="container-fluid px-5 py-5">
-    <div class="row g-4 bg-grey p-4 scrollable-row"> <!-- added scrollable-row -->
-        <!-- colonna 1 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="image-tre">
-                <img src="img/cappello.jpg" alt="Immagine 5" class="img-fluid mb-3">
-                <h3 class="about-titolo">Immagine 5</h3>
-                <p class="about-text">
-                    Descrizione per la prima immagine della sesta riga.
-                </p>
+
+    <!--footer-->
+    <footer class="footer-minimal">
+        <h2>Susanna Rüssing</h2>
+        <div class="contact-info">
+            
+            <!-- Email -->
+            <div class="contact-item">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                <a href="mailto:susanna.russing@gmail.com">susanna.russing@gmail.com</a>
             </div>
-        </div>
-        <!-- colonna 2 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="image-tre">
-                <img src="img/labirinto.jpg" alt="Immagine 6" class="img-fluid mb-3">
-                <h3 class="about-titolo">Immagine 6</h3>
-                <p class="about-text">
-                    Descrizione per la seconda immagine della sesta riga.
-                </p>
+            
+            <!-- Telefono -->
+            <div class="contact-item">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+                <a href="tel:+39 3331093219">+39 3331093219</a>
             </div>
-        </div>
-        <!-- colonna 3 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="image-tre">
-                <img src="img/tipoteca.jpg" alt="Immagine 7" class="img-fluid mb-3">
-                <h3 class="about-titolo">Immagine 7</h3>
-                <p class="about-text">
-                    Descrizione per la terza immagine della sesta riga.
-                </p>
+            
+            <!-- Instagram -->
+            <div class="contact-item">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+                </svg>
+                <a href="https://instagram.com/susannarussing" target="_blank">@susannarussing</a>
             </div>
+            
         </div>
-        <!-- colonna 4 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="image-tre">
-                <img src="img/manifestoespansione.jpg" alt="Immagine 8" class="img-fluid mb-3">
-                <h3 class="about-titolo">Immagine 8</h3>
-                <p class="about-text">
-                    Descrizione per la quarta immagine della sesta riga.
-                </p>
-            </div>
-        </div>
-    </div>
+    </footer>
+
 </div>
 
 
-</body>
-</html>
+
 <script>
-    // Pagination dots for horizontal scrollable rows (mobile)
-    (function () {
-        function initScrollableDots() {
-            const rows = document.querySelectorAll('.scrollable-row');
-            rows.forEach(row => {
-                // count only direct column children
-                const items = Array.from(row.querySelectorAll('[class*="col-"]'));
-                if (!items.length) return;
+// Seleziona gli elementi
+const btnMenu = document.querySelector('.btn-menu');
+const btnClose = document.querySelector('.btn-close');
+const mobileNavWrapper = document.querySelector('.mobile-nav-wrapper');
+const navLinks = document.querySelectorAll('.mobile-nav-wrapper .nav-link');
 
-                // create dots container
-                const dots = document.createElement('div');
-                    dots.className = 'scroll-dots';
-                    // append dots inside the row so they can be overlaid on the images
-                    row.style.position = row.style.position || 'relative';
-                    row.appendChild(dots);
+// Apri il menu mobile (solo se esiste il bottone e l'overlay)
+const siteHeader = document.querySelector('.site-header');
+const btnCloseHeader = document.querySelector('.btn-close-header');
 
-                items.forEach((_, i) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'dot';
-                    btn.setAttribute('aria-label', 'Vai alla slide ' + (i + 1));
-                        btn.addEventListener('click', function () {
-                            const target = items[i];
-                            if (target) {
-                                row.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
-                            }
-                        });
-                    dots.appendChild(btn);
+if (btnMenu && mobileNavWrapper) {
+    btnMenu.addEventListener('click', function() {
+        mobileNavWrapper.classList.add('show');
+        mobileNavWrapper.setAttribute('aria-hidden', 'false');
+        btnMenu.setAttribute('aria-expanded', 'true');
+        // mostra close in header
+        if (siteHeader) siteHeader.classList.add('menu-open');
+        if (btnCloseHeader) btnCloseHeader.style.display = '';
+        // focus sul primo link del menu per accessibilità
+        const firstLink = mobileNavWrapper.querySelector('.nav-link');
+        if (firstLink) firstLink.focus();
+    });
+}
+
+// Chiudi il menu mobile con il bottone close
+// Chiudi il menu mobile con il bottone close (dentro l'overlay)
+if (btnClose && mobileNavWrapper) {
+    btnClose.addEventListener('click', function() {
+        mobileNavWrapper.classList.remove('show');
+        mobileNavWrapper.setAttribute('aria-hidden', 'true');
+        if (btnMenu) btnMenu.setAttribute('aria-expanded', 'false');
+        // nascondi close in header
+        if (siteHeader) siteHeader.classList.remove('menu-open');
+        if (btnCloseHeader) btnCloseHeader.style.display = 'none';
+        // riporta il focus al pulsante hamburger
+        if (btnMenu) btnMenu.focus();
+    });
+}
+
+// Chiudi il menu mobile con il bottone close nell'header (mostrato quando il menu è aperto)
+if (btnCloseHeader && mobileNavWrapper) {
+    btnCloseHeader.addEventListener('click', function(){
+        mobileNavWrapper.classList.remove('show');
+        mobileNavWrapper.setAttribute('aria-hidden', 'true');
+        if (btnMenu) btnMenu.setAttribute('aria-expanded', 'false');
+        if (siteHeader) siteHeader.classList.remove('menu-open');
+        btnCloseHeader.style.display = 'none';
+        if (btnMenu) btnMenu.focus();
+    });
+}
+
+// Chiudi il menu quando si clicca sullo sfondo
+if (mobileNavWrapper) {
+    mobileNavWrapper.addEventListener('click', function(e) {
+        if (e.target === mobileNavWrapper) {
+            mobileNavWrapper.classList.remove('show');
+            mobileNavWrapper.setAttribute('aria-hidden', 'true');
+            if (btnMenu) btnMenu.setAttribute('aria-expanded', 'false');
+            // nascondi close in header
+            if (siteHeader) siteHeader.classList.remove('menu-open');
+            if (btnCloseHeader) btnCloseHeader.style.display = 'none';
+            if (btnMenu) btnMenu.focus();
+        }
+    });
+}
+
+// chiudi menu con ESC quando è aperto
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+        if (mobileNavWrapper && mobileNavWrapper.classList.contains('show')) {
+            mobileNavWrapper.classList.remove('show');
+            mobileNavWrapper.setAttribute('aria-hidden', 'true');
+            if (btnMenu) btnMenu.setAttribute('aria-expanded', 'false');
+            // nascondi close in header
+            if (siteHeader) siteHeader.classList.remove('menu-open');
+            if (btnCloseHeader) btnCloseHeader.style.display = 'none';
+            if (btnMenu) btnMenu.focus();
+        }
+    }
+});
+
+// Previeni la chiusura quando si clicca sui link
+// Quando si clicca un link nel menu mobile, chiudiamo l'overlay (comportamento atteso su mobile)
+if (navLinks && navLinks.length) {
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            // lasciamo il comportamento del link (navigazione), ma chiudiamo il menu
+            if (mobileNavWrapper) {
+                mobileNavWrapper.classList.remove('show');
+                mobileNavWrapper.setAttribute('aria-hidden', 'true');
+            }
+            if (btnMenu) {
+                btnMenu.setAttribute('aria-expanded', 'false');
+                // nascondi close in header
+                if (siteHeader) siteHeader.classList.remove('menu-open');
+                if (btnCloseHeader) btnCloseHeader.style.display = 'none';
+                btnMenu.focus();
+            }
+        });
+    });
+}
+</script>
+
+<script>
+/* Pagination dots as overlay inside each .scrollable-row — always visible on the row and synced to scroll */
+(function(){
+    function initScrollableDots(){
+        const rows = Array.from(document.querySelectorAll('.scrollable-row'));
+        if (!rows.length) return;
+
+            const rowsData = rows.map(row => {
+            // select only direct column children of the row to avoid picking nested cols
+            const items = Array.from(row.querySelectorAll(':scope > [class*="col-"]'));
+            // show dots only when there is more than one slide
+            if (!items || items.length <= 1) {
+                return { row, items, dots: null };
+            }
+            const dots = document.createElement('div');
+            dots.className = 'scroll-dots';
+            items.forEach((_, i) => {
+                const b = document.createElement('button');
+                b.className = 'dot';
+                b.setAttribute('aria-label', 'Vai alla slide ' + (i + 1));
+                b.setAttribute('type', 'button');
+                b.setAttribute('aria-current', 'false');
+                b.tabIndex = 0;
+                b.addEventListener('click', () => {
+                    const target = items[i];
+                    if (target) row.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+                    setActiveForRow(row, i);
                 });
+                b.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); b.click(); } });
+                dots.appendChild(b);
+            });
+            row.appendChild(dots);
+            return { row, items, dots };
+        });
 
-                
-                    const updateActive = () => {
-                        // determine the nearest item based on scrollLeft and offsets
-                        const scrollLeft = row.scrollLeft;
-                        let nearest = 0;
-                        let minDiff = Infinity;
-                        items.forEach((it, idx) => {
-                            const diff = Math.abs(it.offsetLeft - scrollLeft);
-                            if (diff < minDiff) { minDiff = diff; nearest = idx; }
-                        });
-                        const dotButtons = dots.querySelectorAll('.dot');
-                        dotButtons.forEach((d, idx) => d.classList.toggle('active', idx === nearest));
-                    };
-
-                // update while scrolling
-                let rafId = null;
-                row.addEventListener('scroll', () => {
-                    if (rafId) cancelAnimationFrame(rafId);
-                    rafId = requestAnimationFrame(updateActive);
-                }, { passive: true });
-
-                // initial state
-                updateActive();
-
-                // update on resize (layout may change)
-                window.addEventListener('resize', updateActive);
+        function setActiveForRow(row, idx){
+            const data = rowsData.find(d => d.row === row);
+            if (!data || !data.dots) return;
+            const btns = Array.from(data.dots.querySelectorAll('.dot'));
+            btns.forEach((b, i) => {
+                const isActive = i === idx;
+                b.classList.toggle('active', isActive);
+                b.setAttribute('aria-current', isActive ? 'true' : 'false');
             });
         }
 
-        // initialize when DOM ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initScrollableDots);
-        } else {
-            initScrollableDots();
+        function nearestIndex(data){
+            const scrollLeft = data.row.scrollLeft;
+            let nearest = 0, minDiff = Infinity;
+            data.items.forEach((it, i) => {
+                const diff = Math.abs(it.offsetLeft - scrollLeft);
+                if (diff < minDiff){ minDiff = diff; nearest = i; }
+            });
+            return nearest;
         }
-    })();
+
+        // initialize and attach scroll handlers (only for rows that have dots)
+        rowsData.forEach(data => {
+            if (!data.dots) return; // skip rows without dots
+            // set initial active
+            const initial = nearestIndex(data);
+            setActiveForRow(data.row, initial);
+
+            let raf = null;
+            data.row.addEventListener('scroll', () => {
+                if (raf) cancelAnimationFrame(raf);
+                raf = requestAnimationFrame(() => {
+                    const nearest = nearestIndex(data);
+                    setActiveForRow(data.row, nearest);
+                });
+            }, { passive: true });
+        });
+
+        // keep in sync on resize (recompute positions) — skip rows without dots
+        window.addEventListener('resize', () => {
+            rowsData.forEach(d => {
+                if (!d.dots) return;
+                const nearest = nearestIndex(d);
+                setActiveForRow(d.row, nearest);
+            });
+        });
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initScrollableDots);
+    else initScrollableDots();
+})();
 </script>
+
+</body>
+</html>

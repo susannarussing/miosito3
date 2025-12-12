@@ -1,8 +1,18 @@
+html { 
+    background: #ECECEC;
+    margin: 0;
+    padding: 0;
+ }
 body {
     font-family: 'Raleway', sans-serif;
     margin: 0;
     padding: 0;
+    background: #fff; /* page content background */
 }
+
+:root { --site-header-height: 72px; }
+/* reserve space for fixed header */
+body { padding-top: var(--site-header-height); }
 
 h1, h2 {
     font-family: 'Cormorant Infant', serif;
@@ -12,13 +22,14 @@ h1, h2 {
     font-size: 64px;
     font-weight: bold;
     margin-bottom: 20px;
-    /*line-height: 1.1;*/
+    line-height: 1.02;
 }
 
 .sottotitolo {
     font-size: 30px;
     font-weight: normal;
     color: black;
+    line-height: 1.1;
 }
 
 .immagine {
@@ -34,14 +45,14 @@ h1, h2 {
 .about-titolo {
     color: #c8543c;
     font-family: 'Cormorant Infant', serif;
-    font-size: 24px;
+    font-size: 30px;
     margin-bottom: 3vh;
     font-weight: bold;
 }
 
 .about-text {
     font-size: 18px;
-    line-height: 1.8;
+    line-height: 1.5;
     color: black;
 }
 
@@ -55,9 +66,388 @@ h1, h2 {
     margin-right: 0;
 }
 
+.bg-white{
+    background-color: #FFFFFF;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/*stile per menu hamburger*/
+/* Lista di navigazione */
+.nav-list {
+    list-style: none;
+    padding-left: 0;
+
+    display: flex;
+    justify-content: center;
+    /* justify-content: flex-start; */
+    align-items: center;
+}
+
+/* Items della navigazione */
+.nav-item {
+    margin: 0;
+    padding: 0;
+}
+
+/* Links */
+.nav-link {
+    color: rgba(0, 0, 0, 0.8);
+    border-bottom: solid 4px transparent;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 8px;
+    padding: 8px;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: #f04b54;
+    border-bottom: solid 4px #f04b54;
+}
+
+.nav-link.selected {
+    color: #aa8e62;
+    border-bottom: solid 4px #aa8e62;
+    cursor: default;
+}
+
+/* navigazione mobile */
+/* navigazione mobile */
+.mobile-nav-wrapper{
+    position:fixed;
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    background-color: #ECECEC; /* usa lo stesso grigio già presente */
+    z-index:1300;
+    display: flex;
+    /* centra verticalmente il contenuto del menu */
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    
+    /* ANIMAZIONE - queste sono le righe nuove */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-100%);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s;
+}
+
+.mobile-nav-wrapper.show{
+    /* ANIMAZIONE - queste sono le righe nuove */
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0s;
+}
+
+/* style for centered mobile nav list */
+.mobile-nav-wrapper .nav-list{
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+}
+.mobile-nav-inner{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+.mobile-nav-wrapper .nav-link{
+    font-size: 20px;
+    color: rgba(0,0,0,0.9);
+}
+.mobile-nav-wrapper .nav-link:focus{
+    outline: 3px solid rgba(0,0,0,0.12);
+    outline-offset: 4px;
+}
+
+/* focus styles for interactive controls */
+.btn-menu:focus, .btn-close:focus, .dot:focus {
+    outline: 3px dashed rgba(0,0,0,0.12);
+    outline-offset: 3px;
+}
+
+/* logo placeholder */
+.logo-placeholder { display: block; }
+.logo-link { display: inline-block; }
+
+
+
+.mobile-nav-wrapper .nav-list{
+   flex-direction: column; 
+   padding-top: 50px;
+}
+
+.mobile-nav-wrapper .nav-item{ /*questa regola tocca solo questo elemento e non tutto il contenitore*/
+    margin: 15px 0;
+    width: 100%;
+}
+
+.mobile-nav-wrapper .nav-link{
+    font-size: 24px;
+    padding: 8px 0;
+}
+
+.mobile-nav-wrapper .nav-link.selected{
+    color: white;
+    border-bottom: none;
+    cursor: default;
+}
+
+.mobile-nav-wrapper .nav-link:hover{
+    color: white;
+    border-bottom: none;
+}
+
+
+/* Bottone di ricerca */
+.btn-cerca{
+    background: transparent url('../img/search.svg') no-repeat center center;
+    border: none;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-size: 0; /* Nasconde il testo del bottone */
+    margin: 3px 10px 0 0;
+}
+
+/* Bottone menu */
+.btn-menu{
+    background: none;
+    border: none;
+    padding: 0;
+    width: 28px;
+    height: 22px;
+    cursor: pointer;
+    font-size: 0; /* Nasconde il testo del bottone */
+    margin: 0 10px !important;
+}
+
+/* hamburger icon (three bars) */
+.btn-menu .hamburger-icon,
+.btn-menu .hamburger-icon::before,
+.btn-menu .hamburger-icon::after {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #000; /* nero */
+    border-radius: 2px;
+}
+.btn-menu .hamburger-icon { position: relative; }
+.btn-menu .hamburger-icon::before,
+.btn-menu .hamburger-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+}
+.btn-menu .hamburger-icon::before { top: -6px; }
+.btn-menu .hamburger-icon::after { top: 6px; }
+
+/* header styles */
+.site-header {
+    /* remove extra internal padding so header background sits flush to top */
+    padding: 0;
+    box-sizing: border-box;
+    height: var(--site-header-height);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-top: 0;
+    z-index: 1400; /* higher than mobile overlay so header stays visible */
+    background: #ECECEC; /* keep header background visible */
+    display: flex;
+    align-items: center; /* vertically center the inner container */
+}
+
+.site-header .container-fluid { padding-top: 0; padding-bottom: 0; margin: 0; }
+
+/* header state when mobile menu open */
+.site-header.menu-open .btn-close-header { display: inline-block; }
+
+.btn-close-header{
+    display: none; /* default hidden */
+    background: none;
+    border: 1px solid rgba(0,0,0,0.08);
+    background-color: rgba(255,255,255,0.9);
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.site-header .logo-space {
+    width: 160px; /* left area reserved for logo */
+    height: 100%;
+}
+.main-nav .nav-list {
+    display: flex;
+    gap: 1.2rem;
+}
+.main-nav .nav-link {
+    color: rgba(0,0,0,0.85);
+    font-size: 16px;
+}
+
+/* show hamburger only on small screens */
+.btn-menu--visible { display: none; }
+@media (max-width: 991px) {
+    .btn-menu--visible { display: inline-block; }
+    .main-nav.d-none.d-lg-flex { display: none !important; }
+}
+
+/* Bottone close menu */
+.btn-close{
+    background: transparent url('../img/close.svg') no-repeat center center;
+    background-size: cover;
+    border: none;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 0; /* Nasconde il testo del bottone */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.footer-minimal {
+    background: #ECECEC;
+    color: black;
+    padding: 60px 0px;
+    margin: 0;
+    text-align: center;
+    box-sizing: border-box;
+        }
+        
+        .footer-minimal h2 {
+            color: #c8543c;
+            font-family: 'Cormorant Infant', serif;
+            font-size: 32px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .footer-minimal .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .footer-minimal .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-minimal .contact-item:hover {
+            transform: translateX(5px);
+            color: #c8543c;
+        }
+        
+        .footer-minimal .icon {
+            width: 24px;
+            height: 24px;
+            fill: black;
+            transition: fill 0.3s ease;
+        }
+        
+        .footer-minimal .contact-item:hover .icon {
+            fill: #c9485b;
+        }
+        
+        .footer-minimal a {
+            color: black;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-minimal a:hover {
+            border-bottom-color: #c8543c;
+            color: #c8543c;
+        }
+
+
 /* Media queries per responsive */
+@media (max-width: 768px) {
+            .footer-minimalista {
+                padding: 40px 20px;
+            }
+            
+            .footer-minimalista h2 {
+                font-size: 1.5em;
+            }
+            
+            .footer-minimalista .contact-item {
+                font-size: 1em;
+            }
+        }
+
 @media (max-width: 768px) {
     .image-tre {
         margin-bottom: 30px;
+    }
+}
+
+        /* Make footer full-bleed on desktop (match .bg-grey behavior) */
+        @media (min-width: 577px) {
+            .footer-minimal {
+                width: 100vw;
+                position: relative;
+                left: 50%;
+                right: 50%;
+                margin-left: -50vw;
+                margin-right: -50vw;
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+
+/* mobile: give lateral padding to text under images so it doesn't touch screen edge */
+@media (max-width: 576px) {
+    .scrollable-row .image-tre .about-text,
+    .scrollable-row .image-tre .about-titolo {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    /* also ensure .image-tre inner content doesn't sit flush to edges */
+    .scrollable-row > [class*="col-"] .image-tre {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+}
+
+/* Make .bg-grey sections full-bleed on desktop */
+@media (min-width: 577px) {
+    .bg-grey {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        padding-left: 2rem; /* preserve internal padding if needed */
+        padding-right: 2rem;
+    }
+}
+
+/* remove bottom padding from the specific container before footer on desktop so footer sits flush */
+@media (min-width: 577px) {
+    .pb-0-desktop {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
     }
 }
