@@ -28,37 +28,19 @@
 </head>
 
 <body>
-    <!-- Mobile nav overlay (esistente) -->
-    <div id="mobile-nav" class="mobile-nav-wrapper d-lg-none" role="dialog" aria-modal="true" aria-hidden="true"> <!-- overlay menu mobile -->
-        <div class="mobile-nav-inner">
-            <button class="btn btn-close mb-3" aria-label="Chiudi menu">Close</button>
-            <ul class="nav-list" role="menu">
-                <li class="nav-item"><a href="#home" class="nav-link" role="menuitem" tabindex="0" aria-current="page"><strong>Home</strong></a></li>
-                <li class="nav-item"><a href="#about" class="nav-link" role="menuitem" tabindex="0"><strong>About me</strong></a></li>
-                <li class="nav-item"><a href="#progetti-professionali" class="nav-link" role="menuitem" tabindex="0"><strong>Progetti professionali</strong></a></li>
-                <li class="nav-item"><a href="#progetti-universitari" class="nav-link" role="menuitem" tabindex="0"><strong>Progetti universitari</strong></a></li>
-                <li class="nav-item"><a href="#formazione" class="nav-link" role="menuitem" tabindex="0"><strong>Formazione</strong></a></li>
-                <li class="nav-item"><a href="#contatti" class="nav-link" role="menuitem" tabindex="0"><strong>Contatti</strong></a></li>
-            </ul>
-        </div>
-    </div>
-
-        <!-- Site header: full-width row with gray background, logo space left and nav right -->
-<header class="site-header bg-grey">
+    <!-- Site header: full-width row with gray background, logo space left and nav right -->
+<header class="site-header bg-grey sticky-top">
     <div class="container-fluid">
         <div class="row align-items-center">
             <!-- logo placeholder (left) -->
-            <div class="col-10 col-lg-2 logo-space px-4">
+            <div class="col-6 col-lg-2 logo-space px-4">
                 <a href="#" class="logo-link" aria-label="Homepage">
-                    <svg class="logo-placeholder" width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-                        <rect width="120" height="40" fill="#ECECEC" />
-                        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Raleway, sans-serif" font-size="12" fill="#666">LOGO</text>
-                    </svg>
+                    <img src="img/LogoSR.png" alt="Logo" class="logo-image">
                 </a>
             </div>
 
             <!-- navigation (right) -->
-            <div class="col d-flex justify-content-end align-items-center">
+            <div class="col-6 col-lg-10 d-flex justify-content-end align-items-center">
                 <nav class="main-nav d-none d-lg-flex" aria-label="Main navigation">
 
                     <ul class="nav-list">
@@ -85,6 +67,23 @@
     </div>
 </header>
 
+    <!-- Mobile nav overlay (esistente) -->
+    <div id="mobile-nav" class="mobile-nav-wrapper d-lg-none" role="dialog" aria-modal="true" aria-hidden="true"> <!-- overlay menu mobile -->
+        <div class="mobile-nav-inner">
+            <button class="btn btn-close mb-3" aria-label="Chiudi menu">Close</button>
+            <ul class="nav-list" role="menu">
+                <li class="nav-item"><a href="#home" class="nav-link" role="menuitem" tabindex="0" aria-current="page"><strong>Home</strong></a></li>
+                <li class="nav-item"><a href="#about" class="nav-link" role="menuitem" tabindex="0"><strong>About me</strong></a></li>
+                <li class="nav-item"><a href="#progetti-professionali" class="nav-link" role="menuitem" tabindex="0"><strong>Progetti professionali</strong></a></li>
+                <li class="nav-item"><a href="#progetti-universitari" class="nav-link" role="menuitem" tabindex="0"><strong>Progetti universitari</strong></a></li>
+                <li class="nav-item"><a href="#formazione" class="nav-link" role="menuitem" tabindex="0"><strong>Formazione</strong></a></li>
+                <li class="nav-item"><a href="#contatti" class="nav-link" role="menuitem" tabindex="0"><strong>Contatti</strong></a></li>
+            </ul>
+        </div>
+    </div>
+
+        
+<main class="main-content">
     
     <!-- prima riga -->
       <div class="container-fluid" id="home">
@@ -1153,6 +1152,6 @@ if (navLinks && navLinks.length) {
 })();
 </script>
 
-
+</main>
 </body>
 </html>

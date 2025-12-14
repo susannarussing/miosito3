@@ -11,7 +11,103 @@ body {
     background: #fff; /* page content background */
 }
 
+
+
 :root { --site-header-height: 72px; }
+
+/* header styles */
+.site-header {
+    /* remove extra internal padding so header background sits flush to top */
+     position: fixed !important;
+    top: 0 !important; 
+    left: 0;
+    right: 0;
+    margin-top: 0;
+    padding: 0;
+    padding-top: 15px;
+    box-sizing: border-box;
+    height: var(--site-header-height);
+    z-index: 3000; /* higher than mobile overlay so header stays visible */
+    background: #ECECEC; /* keep header background visible */
+    width: 100%;
+    
+}
+
+.sticky-top {
+    position: sticky;
+}
+
+.site-header .container-fluid { padding-top: 0; padding-bottom: 0; margin: 0; }
+
+/* header state when mobile menu open */
+.site-header.menu-open .btn-close-header { display: inline-block; }
+
+.btn-close-header{
+    display: none; /* default hidden */
+    background: none;
+    border: 1px solid rgba(0,0,0,0.08);
+    background-color: rgba(255,255,255,0.9);
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.site-header .logo-space {
+    width: 160px; /* left area reserved for logo */
+    height: 100%;
+}
+
+.site-header .logo-space,
+.site-header .main-nav {
+    display: flex;
+    align-items: center;
+}
+
+.main-nav .nav-list {
+    display: flex;
+    gap: 1.2rem;
+}
+.main-nav .nav-link {
+    color: rgba(0,0,0,0.85);
+    font-size: 16px;
+}
+
+/* show hamburger only on small screens */
+.btn-menu--visible { display: none; }
+@media (max-width: 991px) {
+    .btn-menu--visible { display: inline-block; }
+    .main-nav.d-none.d-lg-flex { display: none !important; }
+}
+
+/* Bottone close menu */
+.btn-close{
+    background: transparent url('../img/close.svg') no-repeat center center;
+    background-size: cover;
+    border: none;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 0; /* Nasconde il testo del bottone */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+
+.main-content {
+    padding-top: var(--site-header-height);
+}
+
+
+.logo-image {
+    height: 60px;      /* adattabile, deve essere < header height */
+    width: auto;       /* mantiene proporzioni */
+    display: block;    /* rimuove eventuali spazi sotto l'immagine */
+    padding-bottom: 10px;;
+}
 
 
 h1, h2 {
@@ -149,7 +245,7 @@ h1, h2 {
     cursor: default;
 }
 
-/* navigazione mobile */
+
 /* navigazione mobile */
 .mobile-nav-wrapper{
     position:fixed;
@@ -416,76 +512,9 @@ ul li {
 .btn-menu .hamburger-icon::before { top: -6px; }
 .btn-menu .hamburger-icon::after { top: 6px; }
 
-/* header styles */
-.site-header {
-    /* remove extra internal padding so header background sits flush to top */
-    top: 0; 
-    margin-top: 0;
-    padding: 0;
-    box-sizing: border-box;
-    height: var(--site-header-height);
-    position: fixed;
-    left: 0;
-    right: 0;
-    z-index: 2000; /* higher than mobile overlay so header stays visible */
-    background: #ECECEC; /* keep header background visible */
-    display: flex;
-    align-items: center; /* vertically center the inner container */
-    width: 100%;
-}
 
 
-.site-header .container-fluid { padding-top: 0; padding-bottom: 0; margin: 0; }
 
-/* header state when mobile menu open */
-.site-header.menu-open .btn-close-header { display: inline-block; }
-
-.btn-close-header{
-    display: none; /* default hidden */
-    background: none;
-    border: 1px solid rgba(0,0,0,0.08);
-    background-color: rgba(255,255,255,0.9);
-    padding: 6px 8px;
-    border-radius: 6px;
-    font-size: 18px;
-    line-height: 1;
-    cursor: pointer;
-    margin-left: 8px;
-}
-.site-header .logo-space {
-    width: 160px; /* left area reserved for logo */
-    height: 100%;
-}
-.main-nav .nav-list {
-    display: flex;
-    gap: 1.2rem;
-}
-.main-nav .nav-link {
-    color: rgba(0,0,0,0.85);
-    font-size: 16px;
-}
-
-/* show hamburger only on small screens */
-.btn-menu--visible { display: none; }
-@media (max-width: 991px) {
-    .btn-menu--visible { display: inline-block; }
-    .main-nav.d-none.d-lg-flex { display: none !important; }
-}
-
-/* Bottone close menu */
-.btn-close{
-    background: transparent url('../img/close.svg') no-repeat center center;
-    background-size: cover;
-    border: none;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    font-size: 0; /* Nasconde il testo del bottone */
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
 
 
 
