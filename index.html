@@ -10,6 +10,9 @@
     <!-- foglio di stile mio -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
+    <!-- SwiperJS CSS (only used on mobile, keeps desktop unchanged) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <!-- meta viewport per far funzionare il responsive -->
     <meta name="viewport" content="width=device-width">
 
@@ -21,99 +24,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> 
 
-        <!-- scrollable rows on mobile -->
-        <style>
-            /* rimuovo margin ma NON azzero il padding del body (manteniamo lo spazio per l'header fisso) */
-            html, body { margin: 0; }
-            /* assicurati che le righe scrollabili possano avere overlay assoluti (dots) */
-            .scrollable-row { position: relative; }
-      /* mobile: fa si che le row siano scrollabili */
-      @media (max-width: 576px) {
-        .scrollable-row {
-                    display: flex;
-                    gap: 0; /* rimuovo lo spazio laterale tra gli item per evitare peek delle immagini */
-                    overflow-x: auto;
-                    -webkit-overflow-scrolling: touch;
-                    padding-bottom: 0.5rem;
-                    scroll-snap-type: x mandatory;
-                    width: 100%;
-                    flex-wrap: nowrap;
-                    /* nascondo la scrollbar visiva */
-                    -ms-overflow-style: none; /* IE/Edge */
-                    scrollbar-width: none; /* Firefox */
-        }
-        
-        /* fa si che le colonne bootstrap facciano come le cards */
-                        .scrollable-row > [class*="col-"] {
-                            /* ogni slide occupa tutta la larghezza della viewport per evitare peek dell'immagine successiva */
-                            flex: 0 0 100vw;
-                            min-width: 100vw;
-                            max-width: 100vw;
-                            scroll-snap-align: start;
-                            /* rimuovo i padding laterali per far arrivare l'immagine fino al bordo del dispositivo */
-                            padding-left: 0 !important;
-                            padding-right: 0 !important;
-                        }
-        
-        /* assicura che le immagini e le descrizioni siano nella posizione giusta */
-        .scrollable-row .image-tre {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-        }
-        
-                        .scrollable-row .image-tre img {
-                            width: 100%;
-                            height: calc(100vw * 0.6); /* un'altezza responsiva più grande per riempire lo spazio */
-                            max-height: 70vh;
-                            display: block;
-                            object-fit: cover; /* assicura che l'immagine riempia l'area senza distorsioni */
-                        }
-      }
-      
-      /* optional: hide scrollbar in WebKit while keeping usability */
-            /* nascondo la scrollbar (ma il contenuto rimane scrollabile via touch) */
-            .scrollable-row::-webkit-scrollbar { 
-                display: none; 
-                height: 0;
-            }
-
-            /* Dots (pagination) for mobile scrollable rows */
-                    .scroll-dots {
-                                display: none; /* visibili solo su mobile tramite media query */
-                        gap: 0.5rem;
-                        justify-content: center;
-                        align-items: center;
-                        margin: 0.5rem 0 1rem 0;
-                        position: absolute; /* positioned within the scrollable-row */
-                        left: 50%;
-                        transform: translateX(-50%);
-                        bottom: 14px;
-                        z-index: 1200;
-                        pointer-events: auto;
-                        background: transparent;
-                        padding: 4px 8px;
-                    }
-            .scroll-dots .dot {
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                background: rgba(0,0,0,0.18);
-                border: none;
-                padding: 0;
-                cursor: pointer;
-            }
-            .scroll-dots .dot.active {
-                background: rgba(0,0,0,0.7);
-            }
-
-                    @media (max-width: 576px) {
-                        .scroll-dots { display: flex; }
-                        /* rimuovo padding dei container che contengono scrollable-row per full-bleed */
-                        .container-fluid.px-5 { padding-left: 0 !important; padding-right: 0 !important; }
-                    }
-    </style>
-
+ 
 </head>
 
 <body>
@@ -122,60 +33,61 @@
         <div class="mobile-nav-inner">
             <button class="btn btn-close mb-3" aria-label="Chiudi menu">Close</button>
             <ul class="nav-list" role="menu">
-                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0" aria-current="page"><strong>Home</strong></a></li>
-                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0"><strong>About me</strong></a></li>
-                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0"><strong>Progetti professionali</strong></a></li>
-                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0"><strong>Progetti universitari</strong></a></li>
-                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0"><strong>Formazione</strong></a></li>
-                <li class="nav-item"><a href="#" class="nav-link" role="menuitem" tabindex="0"><strong>Contatti</strong></a></li>
+                <li class="nav-item"><a href="#home" class="nav-link" role="menuitem" tabindex="0" aria-current="page"><strong>Home</strong></a></li>
+                <li class="nav-item"><a href="#about" class="nav-link" role="menuitem" tabindex="0"><strong>About me</strong></a></li>
+                <li class="nav-item"><a href="#progetti-professionali" class="nav-link" role="menuitem" tabindex="0"><strong>Progetti professionali</strong></a></li>
+                <li class="nav-item"><a href="#progetti-universitari" class="nav-link" role="menuitem" tabindex="0"><strong>Progetti universitari</strong></a></li>
+                <li class="nav-item"><a href="#formazione" class="nav-link" role="menuitem" tabindex="0"><strong>Formazione</strong></a></li>
+                <li class="nav-item"><a href="#contatti" class="nav-link" role="menuitem" tabindex="0"><strong>Contatti</strong></a></li>
             </ul>
         </div>
     </div>
 
         <!-- Site header: full-width row with gray background, logo space left and nav right -->
-        <header class="site-header bg-grey">
-                        <div class="container-fluid">
-                            <div class="row align-items-center">
-                                <!-- logo placeholder (left) -->
-                    <div class="col-auto logo-space px-4">
-                        <!-- logo placeholder (inline SVG) -->
-                        <a href="#" class="logo-link" aria-label="Homepage">
-                            <svg class="logo-placeholder" width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-                                <rect width="120" height="40" fill="#ECECEC" />
-                                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Raleway, sans-serif" font-size="12" fill="#666">LOGO</text>
-                            </svg>
-                        </a>
-                    </div>
+<header class="site-header bg-grey">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <!-- logo placeholder (left) -->
+            <div class="col-10 col-lg-2 logo-space px-4">
+                <a href="#" class="logo-link" aria-label="Homepage">
+                    <svg class="logo-placeholder" width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                        <rect width="120" height="40" fill="#ECECEC" />
+                        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Raleway, sans-serif" font-size="12" fill="#666">LOGO</text>
+                    </svg>
+                </a>
+            </div>
 
-                                <!-- navigation (right) -->
-                                            <div class="col d-flex justify-content-end align-items-center">
-                                    <nav class="main-nav d-none d-lg-flex" aria-label="Main navigation">
-                                        <ul class="nav-list">
-                                            <li class="nav-item"><a href="#" class="nav-link" aria-current="page"><strong>Home</strong></a></li>
-                                            <li class="nav-item"><a href="#" class="nav-link"><strong>About me</strong></a></li>
-                                            <li class="nav-item"><a href="#" class="nav-link"><strong>Progetti professionali</strong></a></li>
-                                            <li class="nav-item"><a href="#" class="nav-link"><strong>Progetti universitari</strong></a></li>
-                                            <li class="nav-item"><a href="#" class="nav-link"><strong>Formazione</strong></a></li>
-                                            <li class="nav-item"><a href="#" class="nav-link"><strong>Contatti</strong></a></li>
-                                        </ul>
-                                    </nav>
+            <!-- navigation (right) -->
+            <div class="col d-flex justify-content-end align-items-center">
+                <nav class="main-nav d-none d-lg-flex" aria-label="Main navigation">
 
-                                                <!-- hamburger (visible on mobile) -->
-                                                <button class="btn-menu btn btn-menu--visible d-lg-none" aria-label="Apri menu" aria-controls="mobile-nav" aria-expanded="false">
-                                                    <span class="hamburger-icon" aria-hidden="true"></span>
-                                                </button>
-                                                <!-- header close button (appears only when mobile menu is open) -->
-                                                <button class="btn-close-header d-lg-none" aria-label="Chiudi menu" style="display:none;">
-                                                    <span aria-hidden="true">✕</span>
-                                                </button>
-                                </div>
-                            </div>
-                        </div>
-                    </header>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="#home" class="nav-link" aria-current="page"><strong>Home</strong></a></li>
+                        <li class="nav-item"><a href="#about" class="nav-link"><strong>About me</strong></a></li>
+                        <li class="nav-item"><a href="#progetti-professionali" class="nav-link"><strong>Progetti professionali</strong></a></li>
+                        <li class="nav-item"><a href="#progetti-universitari" class="nav-link"><strong>Progetti universitari</strong></a></li>
+                        <li class="nav-item"><a href="#formazione" class="nav-link"><strong>Formazione</strong></a></li>
+                        <li class="nav-item"><a href="#contatti" class="nav-link"><strong>Contatti</strong></a></li>
+                    </ul>
+                </nav>
+
+                <!-- hamburger (visible on mobile) -->
+                <button class="btn-menu btn btn-menu--visible d-lg-none" aria-label="Apri menu" aria-controls="mobile-nav" aria-expanded="false">
+                    <span class="hamburger-icon" aria-hidden="true"></span>
+                </button>
+                
+                <!-- header close button (appears only when mobile menu is open) -->
+                <button class="btn-close-header d-lg-none" aria-label="Chiudi menu" style="display:none;">
+                    <span aria-hidden="true">✕</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
 
     
     <!-- prima riga -->
-      <div class="container-fluid">
+      <div class="container-fluid" id="home">
         <div class="row align-items-center">
             <!-- colonna per testo (7 colonne) -->
             <div class="col-lg-7 col-md-6 px-5">
@@ -196,7 +108,7 @@
     <!-- seconda riga -->
     
         <div class="container-fluid">
-            <div class="row align-items-center about-me">
+            <div class="row align-items-center about-me" id="about">
                 <div class="col-lg-5 col-md-6 p-0 order-md-1 order-2">
                     
                         <img src="img//dettagliomani.jpg" alt="Mani in movimento" class="immagine img-fluid">
@@ -220,7 +132,7 @@
 
     <!-- terza riga-->
         <div class="container-fluid px-5 py-5">
-            <div class="row g-4 bg-grey p-4 scrollable-row"> <!--g per mettere spazio tra le colonne; aggiunta scrollable-row-->
+    <div class="row g-4 bg-grey p-4" data-swiper="third-row"> <!--g per mettere spazio tra le colonne;-->
     <!-- colonna 1 -->
         <div class="col-lg-4 col-md-12">
             <div class="image-tre">
@@ -262,79 +174,61 @@
 
 
 
-<!-- quarta riga -->
-<div class="container-fluid">
-    <div class="row align-items-center esperienze-section">
-        <div class="col-lg-5 col-md-4 offset-md-1">
-            <h2 class="about-titolo">Esperienze</h2>
-            <p class="about-text ">
-                Ho 23 anni e sono una ballerina professionista, 
-                diplomata con il metodo RAD e successivamente 
-                presso un'Accademia di danza in Germania, 
-                dove ho vissuto per due anni. Dopo il mio percorso 
-                accademico, ho proseguito la mia formazione 
-                con un corso professionale di danza 
-                contemporanea, ampliando la mia ricerca sul 
-                movimento e sull'espressione corporea.<br>
-                Attualmente frequento il secondo anno del Corso di 
-                Laurea in Design all'Università di San Marino, un 
-                ambito che mi permette di coniugare creatività, 
-                metodo e visione progettuale, dando vita a lavori 
-                sempre diversi e in continua evoluzione.<br>
-                Accanto alla danza e al design, coltivo una profonda 
-                passione per la fotografia, sia come soggetto che 
-                come osservatrice.<br>
-                Oggi continuo a esplorare il linguaggio del corpo 
-                anche come insegnante di danza classica 
-                e contemporanea, unendo esperienza, sensibilità 
-                e desiderio di trasmettere ciò che ho imparato, 
-                anche attraverso il design.
-            </p>
-        </div>
-        
-    </div>
-</div>
 
-   <!--quinta riga-->
+   <!--quarta riga-->
    <div class="container-fluid px-5 py-5">
-            <div class="row g-4 bg-grey p-4 scrollable-row"> <!--g per mettere spazio tra le colonne; aggiunta scrollable-row-->
+            <div class="row g-4 bg-white p-4" data-swiper="fifth-row"> <!--g per mettere spazio tra le colonne; aggiunta scrollable-row-->
     <!-- colonna 1 -->
         <div class="col-lg-4 col-md-12">
-            <div class="image-tre">
+            <div class="image-tre image-hover">
+                <a href="#desc-shootingmare">
                 <img src="img/shootingmare.jpg" alt="Shooting mare" class="img-fluid mb-3">
+                </a>
                 <h3 class="about-titolo">Dance career</h3>
-                <p class="about-text">
+                <div class="hover-text" id="desc-shootingmare">
+                    <p class="about-text">
                     Ballerina professionista ed insegnante di danza classica e contemporanea.
-                </p>
+                    </p>
+                </div>
             </div>
         </div>
         
+
+
     <!-- colonna 2 -->
         <div class="col-lg-4 col-md-12">
-            <div class="image-tre">
-                <img src="img/shootingwakko.jpg" alt="Shooting per Wakko" class="img-fluid mb-3">
-                <p class="about-text">
+            <div class="image-tre image-hover">
+                <a href="#desc-shootingwakko">
+                 <img src="img/shootingwakko.jpg" alt="Shooting per Wakko" class="img-fluid mb-3">
+                </a>
+                <div class="hover-text" id="desc-shootingwakko">
+                 <p class="about-text">
                     Collaborazioni con il negozio Wakko.
-                </p>
+                 </p>
+                </div>
             </div>
         </div>
         
     <!-- colonna 3 -->
         <div class="col-lg-4 col-md-12">
-            <div class="image-tre">
-                <img src="img/classica.jpg" alt="Shooting accademico" class="img-fluid mb-3">
-                <p class="about-text">
+            <div class="image-tre image-hover">
+                <a href="#desc-accademia">
+                 <img src="img/classica.jpg" alt="Shooting accademico" class="img-fluid mb-3">
+                </a>
+                <div class="hover-text" id="desc-accademia">
+                 <p class="about-text">
                     Shooting fotografico per l'Accademia di danza, Germania.
-                </p>
+                 </p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-    <!-- sesta riga -->
+    <!-- quinta riga -->
     
 <div class="container-fluid px-5 py-5">
-    <div class="row g-4 bg-grey p-4 scrollable-row"> <!-- added scrollable-row -->
+    <div class="row g-4 bg-grey p-4" data-swiper="sixth-row" id="progetti-universitari"> <!-- added scrollable-row -->
         <!-- colonna 1 -->
         <div class="col-lg-3 col-md-6">
             <div class="image-tre">
@@ -376,58 +270,155 @@
             </div>
         </div>
     </div>
+</div>
 
 
+  <!-- sesta riga -->
+             <div class="container-fluid bg-grey px-5 py-4 no-side-padding-mobile">
+                 <div class="row mt-0" data-swiper="seventh-row">
 
-            <!-- settima riga -->
-        <div class="container-fluid px-5 py-5 pb-0-desktop">
-        <div class="row g-4 bg-white p-4 scrollable-row"> <!-- added scrollable-row -->
-            <!-- colonna 1 -->
-            <div class="col-lg-3 col-md-6">
-                <div class="image-tre">
-                    <img src="img/d.rim.jpg" alt="Immagine 1" class="img-fluid mb-3">
-                    <h3 class="about-titolo">"D.Rim"</h3>
-                    <p class="about-text">
-                        Progetto di laboratorio di comunicazione, per creare l’identità visiva di un hub culturale
-                    </p>
-                </div>
+        <!-- colonna 1 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="image-tre">
+                <img src="img/d.rim.jpg" alt="Immagine 1" class="img-fluid mb-3">
+                <h3 class="about-titolo">"D.Rim"</h3>
+                <p class="about-text">
+                    Progetto di laboratorio di comunicazione, per creare l'identità visiva di un hub culturale
+                </p>
             </div>
-            <!-- colonna 2 -->
-            <div class="col-lg-3 col-md-6">
-                <div class="image-tre">
-                    <img src="img/eco.jpg" alt="Immagine 2" class="img-fluid mb-3">
-                    <h3 class="about-titolo">"Eco"</h3>
-                    <p class="about-text">
-                        Modellino di trasformazioni geometriche, creato con forex e perle.
-                    </p>
-                </div>
+        </div>
+        <!-- colonna 2 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="image-tre">
+                <img src="img/eco.jpg" alt="Immagine 2" class="img-fluid mb-3">
+                <h3 class="about-titolo">"Eco"</h3>
+                <p class="about-text">
+                    Modellino di trasformazioni geometriche, creato con forex e perle.
+                </p>
             </div>
-            <!-- colonna 3 -->
-            <div class="col-lg-3 col-md-6">
-                <div class="image-tre">
-                    <img src="img/barbieparalume copia.jpg" alt="Immagine 3" class="img-fluid mb-3">
-                    <h3 class="about-titolo">"Barbie Paralume"</h3>
-                    <p class="about-text">
-                        Realizzazione di una lampada ispirata agli anni ‘60, con materiali di recupero.
-                    </p>
-                </div>
+        </div>
+        <!-- colonna 3 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="image-tre">
+                <img src="img/barbieparalume copia.jpg" alt="Immagine 3" class="img-fluid mb-3">
+                <h3 class="about-titolo">"Barbie Paralume"</h3>
+                <p class="about-text">
+                    Realizzazione di una lampada ispirata agli anni '60, con materiali di recupero.
+                </p>
             </div>
-            <!-- colonna 4 -->
-            <div class="col-lg-3 col-md-6">
-                <div class="image-tre">
-                    <img src="img/incollisione.jpg" alt="Immagine 4" class="img-fluid mb-3">
-                    <h3 class="about-titolo">"In collisione"</h3>
-                    <p class="about-text">
-                        Indagine sul territorio come spazio caotico in movimento, raccontato attraverso la riproduzione analogica dei pianeti.
-                    </p>
-                </div>
+        </div>
+        <!-- colonna 4 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="image-tre">
+                <img src="img/incollisione.jpg" alt="Immagine 4" class="img-fluid mb-3">
+                <h3 class="about-titolo">"In collisione"</h3>
+                <p class="about-text">
+                    Indagine sul territorio come spazio caotico in movimento, raccontato attraverso la riproduzione analogica dei pianeti.
+                </p>
             </div>
         </div>
     </div>
+</div>
+    
+
+<!--settima riga che era la quarta-->
+<div class="container-fluid">
+    <div class="row align-items-center esperienze-section pt-5 pb-5" id="progetti-professionali">
+        <div class="col-lg-5 col-md-4 offset-md-1">
+            <h2 class="about-titolo">Esperienze</h2>
+            <p class="about-text ">
+                Ho 23 anni e sono una ballerina professionista, 
+                diplomata con il metodo RAD e successivamente 
+                presso un'Accademia di danza in Germania, 
+                dove ho vissuto per due anni. Dopo il mio percorso 
+                accademico, ho proseguito la mia formazione 
+                con un corso professionale di danza 
+                contemporanea, ampliando la mia ricerca sul 
+                movimento e sull'espressione corporea.<br>
+                Attualmente frequento il secondo anno del Corso di 
+                Laurea in Design all'Università di San Marino, un 
+                ambito che mi permette di coniugare creatività, 
+                metodo e visione progettuale, dando vita a lavori 
+                sempre diversi e in continua evoluzione.<br>
+                Accanto alla danza e al design, coltivo una profonda 
+                passione per la fotografia, sia come soggetto che 
+                come osservatrice.<br>
+                Oggi continuo a esplorare il linguaggio del corpo 
+                anche come insegnante di danza classica 
+                e contemporanea, unendo esperienza, sensibilità 
+                e desiderio di trasmettere ciò che ho imparato, 
+                anche attraverso il design.
+            </p>
+        </div>
+        
+    </div>
+</div>
+
+<!-- riga video full width -->
+
+<section class="video-full">
+    <video autoplay muted loop playsinline>
+        <source src="video/IMG_2719.mov" type="video/mp4">
+    </video>
+</section>
 
 
-    <!--footer-->
-    <footer class="footer-minimal">
+       
+
+<!--riga formazione-->
+ <div class="container-fluid">
+            <div class="row align-items-center about-me" id="formazione">
+               
+                <div class="col-lg-6 col-md-12 order-md-1 order-1">
+                    <div class="px-5 offset-1">
+                        <h2 class="about-titolo">Formazione</h2>
+                        <ul class="lista about-text pb-4">
+                            <li>Attitude Centro Danza San Marino, RAD graduated in 2019</li>
+
+                            <li>Liceo linguistico Giulio Cesare M. Valgimigli, graduated in 2022</li>
+
+                            <li>Bavaria Ballet Academy (BBA), graduated in 2021</li>
+
+                            <li>Agora Coaching Project, 2024</li>
+
+                            <li>Università degli studi di San Marino, Facoltà di Design</li>
+                        </ul>
+                       
+                    </div>
+                </div>
+            </div> 
+
+
+
+      <div class="col-lg-6 col-md-12 p-0 order-md-2 order-2">
+             <div class="formazione-gallery">
+                <div class="scrollable-row formazione-scrollable d-flex" data-formazione-scroll="true">
+                    <div class="col-12">
+                        <img src="img/attitudecentrodanza.jpg" alt="Attitude Centro Danza" class="img-fluid">
+                    </div>
+                    <div class="col-12">
+                        <img src="img/liceovalgimigli.jpg" alt="Liceo G.C. Valgimigli" class="img-fluid">
+                    </div>
+                    <div class="col-12">
+                        <img src="img/accademiagermania.jpg" alt="Bavaria Ballet Academy" class="img-fluid">
+                    </div>
+                    <div class="col-12">
+                        <img src="img/agoracoachingproject.png" alt="Agora Coaching Project" class="img-fluid">
+                    </div>
+                    <div class="col-12">
+                        <img src="img/unirsm.png" alt="Università degli studi di San Marino" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+            
+                    
+    
+
+
+ <!--footer-->
+    <footer class="footer-minimal" id="contatti">
         <h2>Susanna Rüssing</h2>
         <div class="contact-info">
             
@@ -458,7 +449,7 @@
         </div>
     </footer>
 
-</div>
+
 
 
 
@@ -570,6 +561,8 @@ if (navLinks && navLinks.length) {
 /* Pagination dots as overlay inside each .scrollable-row — always visible on the row and synced to scroll */
 (function(){
     function initScrollableDots(){
+        // don't init dots/scroll behaviour on small screens — user requested no scrolling/bollini on mobile
+        if (window.matchMedia && window.matchMedia('(max-width: 576px)').matches) return;
         const rows = Array.from(document.querySelectorAll('.scrollable-row'));
         if (!rows.length) return;
 
@@ -653,6 +646,513 @@ if (navLinks && navLinks.length) {
     else initScrollableDots();
 })();
 </script>
+
+
+
+<!-- SwiperJS (v11) JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+/* Sostituisci lo script Swiper esistente con questo */
+
+(function(){
+    const mq = window.matchMedia('(max-width: 576px)');
+    const selector = '[data-swiper="third-row"]';
+    let swiperInstance = null;
+    let originalHTML = null;
+
+    function initSwiperForRow(){
+        const row = document.querySelector(selector);
+        if (!row || swiperInstance) return;
+        
+        // collect direct column children
+        const cols = Array.from(row.querySelectorAll(':scope > [class*="col-"]'));
+        if (!cols.length) return;
+
+        // save original markup to restore later
+        originalHTML = row.innerHTML;
+
+        // create wrapper and move cols into it
+        const wrapper = document.createElement('div');
+        wrapper.className = 'swiper-wrapper';
+        cols.forEach(col => {
+            col.classList.add('swiper-slide');
+            // rimuovi tutte le classi bootstrap dalle colonne
+            col.className = col.className.replace(/col-\S+/g, '').trim() + ' swiper-slide';
+            wrapper.appendChild(col);
+        });
+
+        // clear row and append wrapper
+        row.innerHTML = '';
+        row.appendChild(wrapper);
+
+        // pagination placed under images
+        const pagination = document.createElement('div');
+        pagination.className = 'swiper-pagination';
+        row.appendChild(pagination);
+
+        // mark as swiper container
+        row.classList.add('swiper');
+
+        // initialize Swiper with correct config
+        swiperInstance = new Swiper(row, {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            centeredSlides: true,
+            pagination: {
+                el: pagination,
+                clickable: true,
+                dynamicBullets: false
+            },
+            // abilita touch/swipe
+            touchEventsTarget: 'wrapper',
+            simulateTouch: true,
+            allowTouchMove: true,
+            touchRatio: 1,
+            touchAngle: 45,
+            threshold: 5,
+            longSwipesRatio: 0.5,
+            longSwipesMs: 300,
+            followFinger: true,
+            // disabilita mousewheel se non serve
+            mousewheel: false,
+            keyboard: {
+                enabled: true,
+                onlyInViewport: true
+            },
+            // resistenza ai bordi
+            resistance: true,
+            resistanceRatio: 0.85,
+            // eventi per debug e fix
+            on: {
+                init: function() {
+                    console.log('Swiper initialized');
+                    // forza aggiornamento dopo init
+                    setTimeout(() => {
+                        this.update();
+                    }, 100);
+                },
+                touchStart: function() {
+                    console.log('Touch start detected');
+                },
+                touchMove: function() {
+                    console.log('Touch move detected');
+                },
+                slideChange: function() {
+                    console.log('Slide changed to:', this.activeIndex);
+                }
+            }
+        });
+    }
+
+    function destroySwiperForRow(){
+        const row = document.querySelector(selector);
+        if (!row) return;
+        if (swiperInstance){
+            try { swiperInstance.destroy(true, true); } catch(e){}
+            swiperInstance = null;
+        }
+        if (originalHTML !== null){
+            row.innerHTML = originalHTML;
+            originalHTML = null;
+            row.classList.remove('swiper');
+        }
+    }
+
+    function check(){
+        if (mq.matches) {
+            // piccolo delay per assicurarsi che il DOM sia pronto
+            setTimeout(initSwiperForRow, 100);
+        } else {
+            destroySwiperForRow();
+        }
+    }
+
+    if (mq.addEventListener) mq.addEventListener('change', check);
+    else if (mq.addListener) mq.addListener(check);
+    document.addEventListener('DOMContentLoaded', check);
+    // esegui anche subito se il DOM è già caricato
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        check();
+    }
+})();
+</script>
+
+<script>
+/* Swiper per QUINTA RIGA */
+(function(){
+    const mq = window.matchMedia('(max-width: 576px)');
+    const selector = '[data-swiper="fifth-row"]';
+    let swiperInstance = null;
+    let originalHTML = null;
+
+    function initSwiperForRow(){
+        const row = document.querySelector(selector);
+        if (!row || swiperInstance) return;
+        
+        const cols = Array.from(row.querySelectorAll(':scope > [class*="col-"]'));
+        if (!cols.length) return;
+
+        originalHTML = row.innerHTML;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'swiper-wrapper';
+        cols.forEach(col => {
+            col.className = col.className.replace(/col-\S+/g, '').trim() + ' swiper-slide';
+            wrapper.appendChild(col);
+        });
+
+        row.innerHTML = '';
+        row.appendChild(wrapper);
+
+        const pagination = document.createElement('div');
+        pagination.className = 'swiper-pagination';
+        row.appendChild(pagination);
+
+        row.classList.add('swiper');
+
+        swiperInstance = new Swiper(row, {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            centeredSlides: true,
+            pagination: {
+                el: pagination,
+                clickable: true,
+                dynamicBullets: false
+            },
+            touchEventsTarget: 'wrapper',
+            simulateTouch: true,
+            allowTouchMove: true,
+            touchRatio: 1,
+            touchAngle: 45,
+            threshold: 5,
+            longSwipesRatio: 0.5,
+            longSwipesMs: 300,
+            followFinger: true,
+            mousewheel: false,
+            keyboard: {
+                enabled: true,
+                onlyInViewport: true
+            },
+            resistance: true,
+            resistanceRatio: 0.85,
+            on: {
+                init: function() {
+                    setTimeout(() => {
+                        this.update();
+                    }, 100);
+                }
+            }
+        });
+    }
+
+    function destroySwiperForRow(){
+        const row = document.querySelector(selector);
+        if (!row) return;
+        if (swiperInstance){
+            try { swiperInstance.destroy(true, true); } catch(e){}
+            swiperInstance = null;
+        }
+        if (originalHTML !== null){
+            row.innerHTML = originalHTML;
+            originalHTML = null;
+            row.classList.remove('swiper');
+        }
+    }
+
+    function check(){
+        if (mq.matches) {
+            setTimeout(initSwiperForRow, 100);
+        } else {
+            destroySwiperForRow();
+        }
+    }
+
+    if (mq.addEventListener) mq.addEventListener('change', check);
+    else if (mq.addListener) mq.addListener(check);
+    document.addEventListener('DOMContentLoaded', check);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        check();
+    }
+})();
+</script>
+
+<script>
+/* Swiper per SESTA RIGA */
+(function(){
+    const mq = window.matchMedia('(max-width: 576px)');
+    const selector = '[data-swiper="sixth-row"]';
+    let swiperInstance = null;
+    let originalHTML = null;
+
+    function initSwiperForRow(){
+        const row = document.querySelector(selector);
+        if (!row || swiperInstance) return;
+        
+        const cols = Array.from(row.querySelectorAll(':scope > [class*="col-"]'));
+        if (!cols.length) return;
+
+        originalHTML = row.innerHTML;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'swiper-wrapper';
+        cols.forEach(col => {
+            col.className = col.className.replace(/col-\S+/g, '').trim() + ' swiper-slide';
+            wrapper.appendChild(col);
+        });
+
+        row.innerHTML = '';
+        row.appendChild(wrapper);
+
+        const pagination = document.createElement('div');
+        pagination.className = 'swiper-pagination';
+        row.appendChild(pagination);
+
+        row.classList.add('swiper');
+
+        swiperInstance = new Swiper(row, {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            centeredSlides: true,
+            pagination: {
+                el: pagination,
+                clickable: true,
+                dynamicBullets: false
+            },
+            touchEventsTarget: 'wrapper',
+            simulateTouch: true,
+            allowTouchMove: true,
+            touchRatio: 1,
+            touchAngle: 45,
+            threshold: 5,
+            longSwipesRatio: 0.5,
+            longSwipesMs: 300,
+            followFinger: true,
+            mousewheel: false,
+            keyboard: {
+                enabled: true,
+                onlyInViewport: true
+            },
+            resistance: true,
+            resistanceRatio: 0.85,
+            on: {
+                init: function() {
+                    setTimeout(() => {
+                        this.update();
+                    }, 100);
+                }
+            }
+        });
+    }
+
+    function destroySwiperForRow(){
+        const row = document.querySelector(selector);
+        if (!row) return;
+        if (swiperInstance){
+            try { swiperInstance.destroy(true, true); } catch(e){}
+            swiperInstance = null;
+        }
+        if (originalHTML !== null){
+            row.innerHTML = originalHTML;
+            originalHTML = null;
+            row.classList.remove('swiper');
+        }
+    }
+
+    function check(){
+        if (mq.matches) {
+            setTimeout(initSwiperForRow, 100);
+        } else {
+            destroySwiperForRow();
+        }
+    }
+
+    if (mq.addEventListener) mq.addEventListener('change', check);
+    else if (mq.addListener) mq.addListener(check);
+    document.addEventListener('DOMContentLoaded', check);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        check();
+    }
+})();
+</script>
+
+<script>
+/* Swiper per SETTIMA RIGA */
+(function(){
+    const mq = window.matchMedia('(max-width: 576px)');
+    const selector = '[data-swiper="seventh-row"]';
+    let swiperInstance = null;
+    let originalHTML = null;
+
+    function initSwiperForRow(){
+        const row = document.querySelector(selector);
+        if (!row || swiperInstance) return;
+        
+        const cols = Array.from(row.querySelectorAll(':scope > [class*="col-"]'));
+        if (!cols.length) return;
+
+        originalHTML = row.innerHTML;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'swiper-wrapper';
+        cols.forEach(col => {
+            col.className = col.className.replace(/col-\S+/g, '').trim() + ' swiper-slide';
+            wrapper.appendChild(col);
+        });
+
+        row.innerHTML = '';
+        row.appendChild(wrapper);
+
+        const pagination = document.createElement('div');
+        pagination.className = 'swiper-pagination';
+        row.appendChild(pagination);
+
+        row.classList.add('swiper');
+
+        swiperInstance = new Swiper(row, {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            centeredSlides: true,
+            pagination: {
+                el: pagination,
+                clickable: true,
+                dynamicBullets: false
+            },
+            touchEventsTarget: 'wrapper',
+            simulateTouch: true,
+            allowTouchMove: true,
+            touchRatio: 1,
+            touchAngle: 45,
+            threshold: 5,
+            longSwipesRatio: 0.5,
+            longSwipesMs: 300,
+            followFinger: true,
+            mousewheel: false,
+            keyboard: {
+                enabled: true,
+                onlyInViewport: true
+            },
+            resistance: true,
+            resistanceRatio: 0.85,
+            on: {
+                init: function() {
+                    setTimeout(() => {
+                        this.update();
+                    }, 100);
+                }
+            }
+        });
+    }
+
+    function destroySwiperForRow(){
+        const row = document.querySelector(selector);
+        if (!row) return;
+        if (swiperInstance){
+            try { swiperInstance.destroy(true, true); } catch(e){}
+            swiperInstance = null;
+        }
+        if (originalHTML !== null){
+            row.innerHTML = originalHTML;
+            originalHTML = null;
+            row.classList.remove('swiper');
+        }
+    }
+
+    function check(){
+        if (mq.matches) {
+            setTimeout(initSwiperForRow, 100);
+        } else {
+            destroySwiperForRow();
+        }
+    }
+
+    if (mq.addEventListener) mq.addEventListener('change', check);
+    else if (mq.addListener) mq.addListener(check);
+    document.addEventListener('DOMContentLoaded', check);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        check();
+    }
+})();
+</script>
+
+<script>
+/* Script per la navigazione con dots della galleria formazione */
+(function(){
+    function initFormazioneGallery(){
+        const gallery = document.querySelector('[data-formazione-scroll="true"]');
+        if (!gallery) return;
+        
+        const items = Array.from(gallery.querySelectorAll(':scope > .col-12'));
+        if (!items || items.length <= 1) return;
+        
+        // Crea i dots
+        const dotsContainer = document.createElement('div');
+        dotsContainer.className = 'scroll-dots';
+        
+        items.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'dot';
+            dot.setAttribute('aria-label', 'Vai all\'immagine ' + (i + 1));
+            dot.setAttribute('type', 'button');
+            dot.addEventListener('click', () => {
+                const target = items[i];
+                if (target) {
+                    gallery.scrollTo({ 
+                        left: target.offsetLeft - (gallery.offsetWidth - target.offsetWidth) / 2, 
+                        behavior: 'smooth' 
+                    });
+                }
+            });
+            dotsContainer.appendChild(dot);
+        });
+        
+        gallery.closest('.formazione-gallery').appendChild(dotsContainer);
+        
+        // Funzione per aggiornare il dot attivo
+        function updateActiveDot() {
+            const scrollLeft = gallery.scrollLeft;
+            const galleryCenter = scrollLeft + gallery.offsetWidth / 2;
+            
+            let activeIndex = 0;
+            let minDistance = Infinity;
+            
+            items.forEach((item, i) => {
+                const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+                const distance = Math.abs(galleryCenter - itemCenter);
+                
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    activeIndex = i;
+                }
+            });
+            
+            const dots = Array.from(dotsContainer.querySelectorAll('.dot'));
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === activeIndex);
+            });
+        }
+        
+        // Inizializza
+        updateActiveDot();
+        
+        // Aggiorna durante lo scroll
+        let scrollTimeout;
+        gallery.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateActiveDot, 50);
+        }, { passive: true });
+        
+        // Aggiorna al resize
+        window.addEventListener('resize', updateActiveDot);
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFormazioneGallery);
+    } else {
+        initFormazioneGallery();
+    }
+})();
+</script>
+
 
 </body>
 </html>

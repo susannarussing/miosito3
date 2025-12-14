@@ -2,6 +2,7 @@ html {
     background: #ECECEC;
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
  }
 body {
     font-family: 'Raleway', sans-serif;
@@ -11,8 +12,7 @@ body {
 }
 
 :root { --site-header-height: 72px; }
-/* reserve space for fixed header */
-body { padding-top: var(--site-header-height); }
+
 
 h1, h2 {
     font-family: 'Cormorant Infant', serif;
@@ -22,7 +22,7 @@ h1, h2 {
     font-size: 64px;
     font-weight: bold;
     margin-bottom: 20px;
-    line-height: 1.02;
+    line-height: 90%;
 }
 
 .sottotitolo {
@@ -36,6 +36,29 @@ h1, h2 {
     width: 100%;
     height: auto;
     display: block;
+}
+
+.image-tre {
+    height: 100%;
+}
+
+.image-hover {
+    position: relative;
+}
+
+.hover-text {
+    position: absolute;
+    inset: 0;
+    background: rgba(236,236,236,0.9);
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.image-hover:hover .hover-text {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .about-me {
@@ -56,9 +79,7 @@ h1, h2 {
     color: black;
 }
 
-.image-tre {
-    height: 100%;
-}
+
 
 .bg-grey{
     background-color: #ECECEC;
@@ -71,6 +92,22 @@ h1, h2 {
     margin-left: 0;
     margin-right: 0;
 }
+
+/*video*/
+.video-full {
+    width: 100vw;
+    height: 70vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.video-full video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 
 /*stile per menu hamburger*/
 /* Lista di navigazione */
@@ -102,8 +139,8 @@ h1, h2 {
 }
 
 .nav-link:hover {
-    color: #f04b54;
-    border-bottom: solid 4px #f04b54;
+    color: #c8543c;
+    border-bottom: solid 4px #c8543c;
 }
 
 .nav-link.selected {
@@ -204,6 +241,136 @@ h1, h2 {
     border-bottom: none;
 }
 
+/*lista formazione*/
+.lista {
+    list-style-type: circle;
+    margin-bottom: 0;
+    padding-left: 1.2rem;
+}
+
+ul li {
+    line-height: 1.8;
+}
+
+
+
+/* Stili per la galleria scorrevole della formazione */
+.formazione-section {
+    padding: 80px 0;
+}
+
+.formazione-gallery .scrollable-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1rem;
+}
+
+.formazione-gallery .scrollable-row::-webkit-scrollbar {
+    display: none; /* nasconde scrollbar */
+}
+
+
+
+.formazione-gallery {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.formazione-scrollable {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 1rem;
+    padding: 0 1rem;
+    /* Nascondi scrollbar ma mantieni funzionalità */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.formazione-scrollable::-webkit-scrollbar {
+    display: none;
+}
+
+.formazione-scrollable > .col-12 {
+    flex: 0 0 80%;
+    max-width: 80%;
+    scroll-snap-align: center;
+}
+
+.formazione-scrollable img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+/* Dots per la navigazione - sempre visibili */
+.formazione-gallery .scroll-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+.formazione-gallery .scroll-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(200, 84, 60, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.formazione-gallery .scroll-dots .dot.active {
+    background: #c8543c;
+    transform: scale(1.2);
+}
+
+.formazione-gallery .scroll-dots .dot:hover {
+    background: rgba(200, 84, 60, 0.6);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .formazione-scrollable > .col-12 {
+        flex: 0 0 90%;
+        max-width: 90%;
+    }
+    
+    .formazione-scrollable img {
+        height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .formazione-scrollable > .col-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .formazione-scrollable {
+        padding: 0;
+        gap: 0;
+    }
+    
+    .formazione-scrollable img {
+        height: 250px;
+    }
+}
+
+
 
 /* Bottone di ricerca */
 .btn-cerca{
@@ -252,19 +419,21 @@ h1, h2 {
 /* header styles */
 .site-header {
     /* remove extra internal padding so header background sits flush to top */
+    top: 0; 
+    margin-top: 0;
     padding: 0;
     box-sizing: border-box;
     height: var(--site-header-height);
     position: fixed;
-    top: 0;
     left: 0;
     right: 0;
-    margin-top: 0;
-    z-index: 1400; /* higher than mobile overlay so header stays visible */
+    z-index: 2000; /* higher than mobile overlay so header stays visible */
     background: #ECECEC; /* keep header background visible */
     display: flex;
     align-items: center; /* vertically center the inner container */
+    width: 100%;
 }
+
 
 .site-header .container-fluid { padding-top: 0; padding-bottom: 0; margin: 0; }
 
@@ -317,6 +486,8 @@ h1, h2 {
     top: 20px;
     right: 20px;
 }
+
+
 
 .footer-minimal {
     background: #ECECEC;
@@ -428,6 +599,49 @@ h1, h2 {
         padding-left: 0.25rem;
         padding-right: 0.25rem;
     }
+    /* remove side padding specifically for sections that need full-bleed on mobile */
+    .no-side-padding-mobile {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .no-side-padding-mobile .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Swiper bullets styling for mobile - use brand color */
+    .swiper-pagination-bullet {
+        background: rgba(200,84,60,0.3);
+        width: 8px;
+        height: 8px;
+        opacity: 1;
+    }
+    .swiper-pagination-bullet-active {
+        background: #c8543c; /* brand color */
+    }
+
+    /* make swiper slides full-bleed on mobile */
+    .swiper .swiper-slide {
+        width: 100vw !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        display: flex;
+        align-items: center; /* center content vertically */
+        justify-content: center;
+    }
+    .swiper .swiper-slide .image-tre {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .swiper .image-tre img {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block;
+        object-fit: cover;
+    }
 }
 
 /* Make .bg-grey sections full-bleed on desktop */
@@ -451,3 +665,462 @@ h1, h2 {
         margin-bottom: 0 !important;
     }
 }
+
+/* Apply top offset only on small viewports so fixed header doesn't cover content
+   (user requested behavior at 566px width and below) */
+@media (max-width: 566px) {
+    body {
+    padding-top: var(--site-header-height);
+}
+
+/* Assicura che l'header sia sempre fisso */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1400;
+}
+}
+
+@media (max-width: 576px) {
+    /* Rimuovi padding dal container della terza riga */
+    .container-fluid:has([data-swiper="third-row"]) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    /* Rimuovi padding e margin dalla row Swiper */
+    [data-swiper="third-row"] {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100vw !important;
+    }
+    
+    /* Swiper container full-bleed */
+    [data-swiper="third-row"].swiper {
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden;
+        touch-action: pan-y pinch-zoom !important;
+    }
+    
+    /* Swiper wrapper */
+    [data-swiper="third-row"] .swiper-wrapper {
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        touch-action: pan-y !important;
+    }
+    
+    /* Ogni slide occupa tutto lo schermo */
+    [data-swiper="third-row"] .swiper-slide {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 100vw !important;
+        flex-shrink: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        position: relative;
+        left: 0;
+        right: 0;
+    }
+    
+    /* Container dell'immagine e testo */
+    [data-swiper="third-row"] .swiper-slide .image-tre {
+        width: 100vw;
+        max-width: 100vw;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    /* Immagini full-width e centrate */
+    [data-swiper="third-row"] .swiper-slide .image-tre img {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: auto;
+        display: block;
+        object-fit: cover;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Testo sotto le immagini con padding laterale */
+    [data-swiper="third-row"] .swiper-slide .about-titolo,
+    [data-swiper="third-row"] .swiper-slide .about-text {
+        width: 100%;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        margin-top: 1rem;
+        box-sizing: border-box;
+    }
+    
+    /* Stile bullets con colore brand */
+    [data-swiper="third-row"] .swiper-pagination-bullet {
+        background: rgba(200, 84, 60, 0.3) !important;
+        width: 10px;
+        height: 10px;
+        opacity: 1 !important;
+    }
+    
+    [data-swiper="third-row"] .swiper-pagination-bullet-active {
+        background: #c8543c !important;
+        opacity: 1 !important;
+    }
+    
+    /* Posiziona i bullets sotto il contenuto */
+    [data-swiper="third-row"] .swiper-pagination {
+        position: relative;
+        bottom: auto;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Assicura che il touch/swipe funzioni correttamente */
+    /* Previeni interferenze con altri elementi */
+    [data-swiper="third-row"] .swiper-slide * {
+        pointer-events: none;
+    }
+    
+    [data-swiper="third-row"] .swiper-pagination {
+        pointer-events: auto;
+    }
+    
+    [data-swiper="third-row"] .swiper-pagination-bullet {
+        pointer-events: auto;
+    }
+}
+
+/* ============================================
+   CSS FIX PER SWIPER MOBILE - QUINTA RIGA
+   ============================================ */
+
+@media (max-width: 576px) {
+    .container-fluid:has([data-swiper="fifth-row"]) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    [data-swiper="fifth-row"] {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100vw !important;
+    }
+    
+    [data-swiper="fifth-row"].swiper {
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden;
+        touch-action: pan-y pinch-zoom !important;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-wrapper {
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        touch-action: pan-y !important;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-slide {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 100vw !important;
+        flex-shrink: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        position: relative;
+        left: 0;
+        right: 0;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-slide .image-tre {
+        width: 100vw;
+        max-width: 100vw;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-slide .image-tre img {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: auto;
+        display: block;
+        object-fit: cover;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-slide .about-titolo,
+    [data-swiper="fifth-row"] .swiper-slide .about-text {
+        width: 100%;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        margin-top: 1rem;
+        box-sizing: border-box;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-pagination-bullet {
+        background: rgba(200, 84, 60, 0.3) !important;
+        width: 10px;
+        height: 10px;
+        opacity: 1 !important;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-pagination-bullet-active {
+        background: #c8543c !important;
+        opacity: 1 !important;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-pagination {
+        position: relative;
+        bottom: auto;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-slide * {
+        pointer-events: none;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-pagination {
+        pointer-events: auto;
+    }
+    
+    [data-swiper="fifth-row"] .swiper-pagination-bullet {
+        pointer-events: auto;
+    }
+}
+
+/* ============================================
+   CSS FIX PER SWIPER MOBILE - SESTA RIGA
+   ============================================ */
+
+@media (max-width: 576px) {
+    .container-fluid:has([data-swiper="sixth-row"]) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    [data-swiper="sixth-row"] {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100vw !important;
+    }
+    
+    [data-swiper="sixth-row"].swiper {
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden;
+        touch-action: pan-y pinch-zoom !important;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-wrapper {
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        touch-action: pan-y !important;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-slide {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 100vw !important;
+        flex-shrink: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        position: relative;
+        left: 0;
+        right: 0;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-slide .image-tre {
+        width: 100vw;
+        max-width: 100vw;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-slide .image-tre img {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: auto;
+        display: block;
+        object-fit: cover;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-slide .about-titolo,
+    [data-swiper="sixth-row"] .swiper-slide .about-text {
+        width: 100%;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        margin-top: 1rem;
+        box-sizing: border-box;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-pagination-bullet {
+        background: rgba(200, 84, 60, 0.3) !important;
+        width: 10px;
+        height: 10px;
+        opacity: 1 !important;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-pagination-bullet-active {
+        background: #c8543c !important;
+        opacity: 1 !important;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-pagination {
+        position: relative;
+        bottom: auto;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-slide * {
+        pointer-events: none;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-pagination {
+        pointer-events: auto;
+    }
+    
+    [data-swiper="sixth-row"] .swiper-pagination-bullet {
+        pointer-events: auto;
+    }
+}
+
+/* ============================================
+   CSS FIX PER SWIPER MOBILE - SETTIMA RIGA
+   ============================================ */
+
+@media (max-width: 576px) {
+    .container-fluid:has([data-swiper="seventh-row"]) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    [data-swiper="seventh-row"] {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100vw !important;
+    }
+    
+    [data-swiper="seventh-row"].swiper {
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden;
+        touch-action: pan-y pinch-zoom !important;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-wrapper {
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        touch-action: pan-y !important;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-slide {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 100vw !important;
+        flex-shrink: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        position: relative;
+        left: 0;
+        right: 0;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-slide .image-tre {
+        width: 100vw;
+        max-width: 100vw;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-slide .image-tre img {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: auto;
+        display: block;
+        object-fit: cover;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-slide .about-titolo,
+    [data-swiper="seventh-row"] .swiper-slide .about-text {
+        width: 100%;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        margin-top: 1rem;
+        box-sizing: border-box;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-pagination-bullet {
+        background: rgba(200, 84, 60, 0.3) !important;
+        width: 10px;
+        height: 10px;
+        opacity: 1 !important;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-pagination-bullet-active {
+        background: #c8543c !important;
+        opacity: 1 !important;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-pagination {
+        position: relative;
+        bottom: auto;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-slide * {
+        pointer-events: none;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-pagination {
+        pointer-events: auto;
+    }
+    
+    [data-swiper="seventh-row"] .swiper-pagination-bullet {
+        pointer-events: auto;
+    }
+}
+
