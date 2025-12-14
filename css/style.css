@@ -37,7 +37,12 @@ body {
     position: sticky;
 }
 
-.site-header .container-fluid { padding-top: 0; padding-bottom: 0; margin: 0; }
+.site-header .container-fluid { 
+    padding-top: 0; 
+    padding-bottom: 0; 
+    margin: 0; 
+    justify-content: space-between; /* logo a sinistra, menu/hamburger a destra */
+}
 
 /* header state when mobile menu open */
 .site-header.menu-open .btn-close-header { display: inline-block; }
@@ -79,6 +84,34 @@ body {
 @media (max-width: 991px) {
     .btn-menu--visible { display: inline-block; }
     .main-nav.d-none.d-lg-flex { display: none !important; }
+    /* Remove lateral padding on header container so hamburger can sit flush to the right edge */
+    .site-header .container-fluid {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    /* Keep a small left padding for the logo so it doesn't touch the screen edge */
+    .site-header .logo-space {
+        padding-left: 1rem !important;
+        padding-right: 0 !important;
+    }
+}
+
+/* Ensure hamburger icon is absolutely flush to the right on narrow mobile viewports */
+@media (max-width: 576px) {
+    /* position the hamburger relative to the fixed header so it's always at the right edge */
+    .site-header { position: fixed; }
+    .site-header .btn-menu {
+        position: absolute !important;
+        right: 1rem !important; /* distance from the right edge */
+        top: 50% !important;
+        transform: translateY(-50%) !important; /* vertically center inside header */
+        margin: 0 !important; /* remove any margin that was pushing it left */
+        z-index: 3500 !important; /* ensure it's above other header content */
+    }
+    /* remove extra padding on the column that contains the hamburger so it doesn't push layout */
+    .site-header .col-6:last-child {
+        padding-right: 0 !important;
+    }
 }
 
 /* Bottone close menu */
