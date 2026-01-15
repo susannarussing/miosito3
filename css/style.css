@@ -501,17 +501,7 @@ ul li {
 
 
 
-/* Bottone di ricerca */
-.btn-cerca{
-    background: transparent url('../img/search.svg') no-repeat center center;
-    border: none;
-    padding: 0;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    font-size: 0; /* Nasconde il testo del bottone */
-    margin: 3px 10px 0 0;
-}
+
 
 /* Bottone menu */
 .btn-menu{
