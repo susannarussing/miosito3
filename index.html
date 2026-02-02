@@ -524,6 +524,14 @@ if (mobileNavWrapper) {
     });
 }
 
+
+// Quando apri il menu
+document.querySelector('.site-header').classList.add('menu-open');
+
+// Quando chiudi il menu
+document.querySelector('.site-header').classList.remove('menu-open');
+
+
 // chiudi menu con ESC quando è aperto
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' || e.key === 'Esc') {

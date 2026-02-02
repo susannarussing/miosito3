@@ -98,6 +98,21 @@ body {
     align-items: center;
 }
 
+/* Nascondi hamburger quando menu è aperto */
+.site-header.menu-open .btn-menu {
+    display: none !important;
+}
+
+/* Mostra X solo quando menu è aperto */
+.site-header.menu-open .btn-close-header {
+    display: inline-block !important;
+    position: absolute !important;
+    right: 1rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 3500 !important;
+}
+
 .main-nav .nav-list {
     display: flex;
     gap: 1.2rem;
