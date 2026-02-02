@@ -44,48 +44,9 @@ body {
     justify-content: space-between; /* logo a sinistra, menu/hamburger a destra */
 }
 
-/* header state when mobile menu open */
-.site-header.menu-open .btn-close-header { display: inline-block; }
 
-.btn-close-header{
-    display: none; /* default hidden */
-    background: none;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-    position: relative;
-    width: 40px;
-    height: 40px;
-}
 
-.btn-close-header span {
-    display: block;
-    position: absolute;
-    width: 24px;
-    height: 2px;
-    background-color: #000;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
 
-.btn-close-header span::before,
-.btn-close-header span::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background-color: #000;
-    left: 0;
-}
-
-.btn-close-header span::before {
-    transform: rotate(45deg);
-}
-
-.btn-close-header span::after {
-    transform: rotate(-45deg);
-} 
 
 .site-header .logo-space {
     width: 160px; /* left area reserved for logo */
@@ -98,20 +59,9 @@ body {
     align-items: center;
 }
 
-/* Nascondi hamburger quando menu è aperto */
-.site-header.menu-open .btn-menu {
-    display: none !important;
-}
 
-/* Mostra X solo quando menu è aperto */
-.site-header.menu-open .btn-close-header {
-    display: inline-block !important;
-    position: absolute !important;
-    right: 1rem !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    z-index: 3500 !important;
-}
+
+
 
 .main-nav .nav-list {
     display: flex;
@@ -122,10 +72,9 @@ body {
     font-size: 16px;
 }
 
-/* show hamburger only on small screens */
-.btn-menu--visible { display: none; }
+
 @media (max-width: 991px) {
-    .btn-menu--visible { display: inline-block; }
+    
     .main-nav.d-none.d-lg-flex { display: none !important; }
     /* Remove lateral padding on header container so hamburger can sit flush to the right edge */
     .site-header .container-fluid {
@@ -139,38 +88,7 @@ body {
     }
 }
 
-/* Ensure hamburger icon is absolutely flush to the right on narrow mobile viewports */
-@media (max-width: 576px) {
-    /* position the hamburger relative to the fixed header so it's always at the right edge */
-    .site-header { position: fixed; }
-    .site-header .btn-menu {
-        position: absolute !important;
-        right: 1rem !important; /* distance from the right edge */
-        top: 50% !important;
-        transform: translateY(-50%) !important; /* vertically center inside header */
-        margin: 0 !important; /* remove any margin that was pushing it left */
-        z-index: 3500 !important; /* ensure it's above other header content */
-    }
-    /* remove extra padding on the column that contains the hamburger so it doesn't push layout */
-    .site-header .col-6:last-child {
-        padding-right: 0 !important;
-    }
-}
 
-/* Bottone close menu */
-.btn-close{
-    background: transparent url('../img/close.svg') no-repeat center center;
-    background-size: cover;
-    border: none;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    font-size: 0; /* Nasconde il testo del bottone */
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
 
 
 .main-content {
@@ -357,6 +275,7 @@ h1, h2 {
     flex-direction: column;
     gap: 1.2rem;
     align-items: center;
+    padding-top: 50px;
 }
 .mobile-nav-inner{
     width: 100%;
@@ -375,22 +294,19 @@ h1, h2 {
     outline-offset: 4px;
 }
 
-/* focus styles for interactive controls */
-.btn-menu:focus, .btn-close:focus, .dot:focus {
+.menu-toggle:focus,
+.dot:focus {
     outline: 3px dashed rgba(0,0,0,0.12);
     outline-offset: 3px;
 }
 
+
 /* logo placeholder */
-.logo-placeholder { display: block; }
+
 .logo-link { display: inline-block; }
 
 
 
-.mobile-nav-wrapper .nav-list{
-   flex-direction: column; 
-   padding-top: 50px;
-}
 
 .mobile-nav-wrapper .nav-item{ /*questa regola tocca solo questo elemento e non tutto il contenitore*/
     margin: 15px 0;
@@ -514,6 +430,65 @@ ul li {
     background: rgba(200, 84, 60, 0.6);
 }
 
+
+/* ===== MENU TOGGLE (hamburger / X) ===== */
+
+.menu-toggle {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 4000;
+}
+
+/* hamburger */
+.icon-hamburger {
+    width: 24px;
+    height: 2px;
+    background: #000;
+    display: block;
+    position: relative;
+}
+
+.icon-hamburger::before,
+.icon-hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 24px;
+    height: 2px;
+    background: #000;
+}
+
+.icon-hamburger::before { top: -6px; }
+.icon-hamburger::after  { top: 6px; }
+
+/* X con immagine */
+.icon-close {
+    display: none;
+    width: 40px;
+    height: 40px;
+    background: url('../img/close.svg') no-repeat center center;
+    background-size: contain;
+}
+
+/* switch */
+.site-header.menu-open .icon-hamburger {
+    display: none;
+}
+
+.site-header.menu-open .icon-close {
+    display: block;
+}
+
+
+
+
 /* Responsive */
 @media (max-width: 991px) {
     .formazione-scrollable > .col-12 {
@@ -541,44 +516,6 @@ ul li {
         height: 250px;
     }
 }
-
-
-
-
-
-/* Bottone menu */
-.btn-menu{
-    background: none;
-    border: none;
-    padding: 0;
-    width: 28px;
-    height: 22px;
-    cursor: pointer;
-    font-size: 0; /* Nasconde il testo del bottone */
-    margin: 0 10px !important;
-}
-
-/* hamburger icon (three bars) */
-.btn-menu .hamburger-icon,
-.btn-menu .hamburger-icon::before,
-.btn-menu .hamburger-icon::after {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: #000; /* nero */
-    border-radius: 2px;
-}
-.btn-menu .hamburger-icon { position: relative; }
-.btn-menu .hamburger-icon::before,
-.btn-menu .hamburger-icon::after {
-    content: '';
-    position: absolute;
-    left: 0;
-}
-.btn-menu .hamburger-icon::before { top: -6px; }
-.btn-menu .hamburger-icon::after { top: 6px; }
-
-
 
 
 

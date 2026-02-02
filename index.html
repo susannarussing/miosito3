@@ -59,14 +59,11 @@
                 </nav>
 
                 <!-- hamburger (visible on mobile) -->
-                <button class="btn-menu btn btn-menu--visible padding-left-0 margin-left-0 d-lg-none" aria-label="Apri menu" aria-controls="mobile-nav" aria-expanded="false">
-                    <span class="hamburger-icon" aria-hidden="true"></span>
-                </button>
-                
-                <!-- header close button (appears only when mobile menu is open) -->
-                <button class="btn-close-header d-lg-none" aria-label="Chiudi menu" style="display:none;">
-                    <span aria-hidden="true">✕</span>
-                </button>
+                <button class="menu-toggle d-lg-none" aria-label="Apri menu">
+    <span class="icon-hamburger"></span>
+    <span class="icon-close"></span>
+</button>
+
             </div>
         </div>
     </div>
@@ -75,7 +72,7 @@
     <!-- Mobile nav overlay (esistente) -->
     <div id="mobile-nav" class="mobile-nav-wrapper d-lg-none" role="dialog" aria-modal="true" aria-hidden="true"> <!-- overlay menu mobile -->
         <div class="mobile-nav-inner">
-            <button class="btn btn-close mb-3" aria-label="Chiudi menu">Close</button>
+            
             <ul class="nav-list" role="menu">
                 <li class="nav-item"><a href="#home" class="nav-link" role="menuitem" tabindex="0" aria-current="page"><strong>Home</strong></a></li>
                 <li class="nav-item"><a href="#about" class="nav-link" role="menuitem" tabindex="0"><strong>About me</strong></a></li>
@@ -455,119 +452,30 @@
 
 
 
-
-
+<!-- ===== MOBILE MENU TOGGLE =====-->
 <script>
-// Seleziona gli elementi
-const btnMenu = document.querySelector('.btn-menu');
-const btnClose = document.querySelector('.btn-close');
-const mobileNavWrapper = document.querySelector('.mobile-nav-wrapper');
-const navLinks = document.querySelectorAll('.mobile-nav-wrapper .nav-link');
+const toggle = document.querySelector('.menu-toggle');
+const header = document.querySelector('.site-header');
+const mobileNav = document.querySelector('.mobile-nav-wrapper');
 
-// Apri il menu mobile (solo se esiste il bottone e l'overlay)
-const siteHeader = document.querySelector('.site-header');
-const btnCloseHeader = document.querySelector('.btn-close-header');
-
-if (btnMenu && mobileNavWrapper) {
-    btnMenu.addEventListener('click', function() {
-        mobileNavWrapper.classList.add('show');
-        mobileNavWrapper.setAttribute('aria-hidden', 'false');
-        btnMenu.setAttribute('aria-expanded', 'true');
-        // mostra close in header
-        if (siteHeader) siteHeader.classList.add('menu-open');
-        if (btnCloseHeader) btnCloseHeader.style.display = '';
-        // focus sul primo link del menu per accessibilità
-        const firstLink = mobileNavWrapper.querySelector('.nav-link');
-        if (firstLink) firstLink.focus();
-    });
-}
-
-// Chiudi il menu mobile con il bottone close
-// Chiudi il menu mobile con il bottone close (dentro l'overlay)
-if (btnClose && mobileNavWrapper) {
-    btnClose.addEventListener('click', function() {
-        mobileNavWrapper.classList.remove('show');
-        mobileNavWrapper.setAttribute('aria-hidden', 'true');
-        if (btnMenu) btnMenu.setAttribute('aria-expanded', 'false');
-        // nascondi close in header
-        if (siteHeader) siteHeader.classList.remove('menu-open');
-        if (btnCloseHeader) btnCloseHeader.style.display = 'none';
-        // riporta il focus al pulsante hamburger
-        if (btnMenu) btnMenu.focus();
-    });
-}
-
-// Chiudi il menu mobile con il bottone close nell'header (mostrato quando il menu è aperto)
-if (btnCloseHeader && mobileNavWrapper) {
-    btnCloseHeader.addEventListener('click', function(){
-        mobileNavWrapper.classList.remove('show');
-        mobileNavWrapper.setAttribute('aria-hidden', 'true');
-        if (btnMenu) btnMenu.setAttribute('aria-expanded', 'false');
-        if (siteHeader) siteHeader.classList.remove('menu-open');
-        btnCloseHeader.style.display = 'none';
-        if (btnMenu) btnMenu.focus();
-    });
-}
-
-// Chiudi il menu quando si clicca sullo sfondo
-if (mobileNavWrapper) {
-    mobileNavWrapper.addEventListener('click', function(e) {
-        if (e.target === mobileNavWrapper) {
-            mobileNavWrapper.classList.remove('show');
-            mobileNavWrapper.setAttribute('aria-hidden', 'true');
-            if (btnMenu) btnMenu.setAttribute('aria-expanded', 'false');
-            // nascondi close in header
-            if (siteHeader) siteHeader.classList.remove('menu-open');
-            if (btnCloseHeader) btnCloseHeader.style.display = 'none';
-            if (btnMenu) btnMenu.focus();
-        }
-    });
-}
-
-
-// Quando apri il menu
-document.querySelector('.site-header').classList.add('menu-open');
-
-// Quando chiudi il menu
-document.querySelector('.site-header').classList.remove('menu-open');
-
-
-// chiudi menu con ESC quando è aperto
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' || e.key === 'Esc') {
-        if (mobileNavWrapper && mobileNavWrapper.classList.contains('show')) {
-            mobileNavWrapper.classList.remove('show');
-            mobileNavWrapper.setAttribute('aria-hidden', 'true');
-            if (btnMenu) btnMenu.setAttribute('aria-expanded', 'false');
-            // nascondi close in header
-            if (siteHeader) siteHeader.classList.remove('menu-open');
-            if (btnCloseHeader) btnCloseHeader.style.display = 'none';
-            if (btnMenu) btnMenu.focus();
-        }
-    }
+/* apri / chiudi menu */
+toggle.addEventListener('click', () => {
+    const isOpen = header.classList.toggle('menu-open');
+    mobileNav.classList.toggle('show', isOpen);
+    mobileNav.setAttribute('aria-hidden', !isOpen);
 });
 
-// Previeni la chiusura quando si clicca sui link
-// Quando si clicca un link nel menu mobile, chiudiamo l'overlay (comportamento atteso su mobile)
-if (navLinks && navLinks.length) {
-    navLinks.forEach(function(link) {
-        link.addEventListener('click', function(e) {
-            // lasciamo il comportamento del link (navigazione), ma chiudiamo il menu
-            if (mobileNavWrapper) {
-                mobileNavWrapper.classList.remove('show');
-                mobileNavWrapper.setAttribute('aria-hidden', 'true');
-            }
-            if (btnMenu) {
-                btnMenu.setAttribute('aria-expanded', 'false');
-                // nascondi close in header
-                if (siteHeader) siteHeader.classList.remove('menu-open');
-                if (btnCloseHeader) btnCloseHeader.style.display = 'none';
-                btnMenu.focus();
-            }
-        });
+/* chiudi menu cliccando un link */
+document.querySelectorAll('.mobile-nav-wrapper a').forEach(link => {
+    link.addEventListener('click', () => {
+        header.classList.remove('menu-open');
+        mobileNav.classList.remove('show');
+        mobileNav.setAttribute('aria-hidden', 'true');
     });
-}
+});
 </script>
+
+
 
 <script>
 /* Pagination dots as overlay inside each .scrollable-row — always visible on the row and synced to scroll */
