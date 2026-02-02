@@ -50,15 +50,43 @@ body {
 .btn-close-header{
     display: none; /* default hidden */
     background: none;
-    border: 1px solid rgba(0,0,0,0.08);
-    background-color: rgba(255,255,255,0.9);
-    padding: 6px 8px;
-    border-radius: 6px;
-    font-size: 18px;
-    line-height: 1;
+    border: none;
+    padding: 8px;
     cursor: pointer;
-    margin-left: 8px;
+    position: relative;
+    width: 40px;
+    height: 40px;
 }
+
+.btn-close-header span {
+    display: block;
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: #000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn-close-header span::before,
+.btn-close-header span::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+    left: 0;
+}
+
+.btn-close-header span::before {
+    transform: rotate(45deg);
+}
+
+.btn-close-header span::after {
+    transform: rotate(-45deg);
+} 
+
 .site-header .logo-space {
     width: 160px; /* left area reserved for logo */
     height: 100%;
